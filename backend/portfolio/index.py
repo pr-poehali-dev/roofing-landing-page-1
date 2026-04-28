@@ -33,57 +33,62 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 200, "headers": headers, "body": ""}
 
     s3 = get_s3()
-    bucket = "files"
+    bucket = "bucket"
     prefix = "photo/"
 
-    # Отладка: все файлы в бакете с префиксом photo/
-    all_keys = []
-    try:
-        resp = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
-        all_keys = [o["Key"] for o in resp.get("Contents", [])]
-        print(f"[DEBUG] all keys under photo/: {all_keys}")
-    except Exception as e:
-        print(f"[DEBUG] list error: {e}")
-
+    # Получаем ВСЕ объекты под photo/ без delimiter
+    all_objects = []
     paginator = s3.get_paginator("list_objects_v2")
-    pages = paginator.paginate(Bucket=bucket, Prefix=prefix, Delimiter="/")
+    for page in paginator.paginate(Bucket=bucket, Prefix=prefix):
+        for obj in page.get("Contents", []):
+            all_objects.append(obj["Key"])
 
-    folders = []
-    for page in pages:
-        for cp in page.get("CommonPrefixes", []):
-            folder = cp["Prefix"]
-            name = folder.rstrip("/").split("/")[-1]
-            if name.startswith("obj"):
-                folders.append((name, folder))
+    print(f"[DEBUG] all objects under photo/: {all_objects}")
 
-    folders.sort(key=lambda x: x[0])
+    # Группируем по папкам objN
+    folder_files: dict = {}
+    for key in all_objects:
+        parts = key.split("/")
+        # key like: photo/obj1/file.jpg → parts = ["photo", "obj1", "file.jpg"]
+        if len(parts) >= 3 and parts[1].startswith("obj"):
+            folder_name = parts[1]
+            filename = parts[-1]
+            if folder_name not in folder_files:
+                folder_files[folder_name] = []
+            folder_files[folder_name].append((key, filename))
+
+    print(f"[DEBUG] folders found: {list(folder_files.keys())}")
 
     projects = []
-    for name, folder in folders:
-        obj_pages = paginator.paginate(Bucket=bucket, Prefix=folder)
+    for folder_name in sorted(folder_files.keys()):
+        files = folder_files[folder_name]
+        meta = {"title": folder_name.upper(), "description": "", "tags": []}
         photos = []
-        meta = {"title": name.upper(), "description": "", "tags": []}
 
-        for page in obj_pages:
-            for obj in page.get("Contents", []):
-                key = obj["Key"]
-                filename = key.split("/")[-1].lower()
-                if filename == "meta.json":
-                    try:
-                        resp = s3.get_object(Bucket=bucket, Key=key)
-                        meta = json.loads(resp["Body"].read().decode("utf-8"))
-                    except ClientError:
-                        pass
-                elif filename.endswith((".jpg", ".jpeg", ".png", ".webp")):
-                    photos.append({
-                        "src": get_cdn_url(key),
-                        "caption": meta.get("title", name.upper()),
-                    })
+        # Сначала читаем meta.json
+        for key, filename in files:
+            if filename.lower() == "meta.json":
+                try:
+                    resp = s3.get_object(Bucket=bucket, Key=key)
+                    meta = json.loads(resp["Body"].read().decode("utf-8"))
+                    print(f"[DEBUG] loaded meta for {folder_name}: {meta}")
+                except ClientError as e:
+                    print(f"[DEBUG] meta read error: {e}")
+
+        # Затем собираем фото
+        for key, filename in files:
+            if filename.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+                photos.append({
+                    "src": get_cdn_url(key),
+                    "caption": meta.get("title", folder_name.upper()),
+                })
+
+        print(f"[DEBUG] {folder_name}: {len(photos)} photos")
 
         if photos:
             projects.append({
-                "id": name,
-                "title": meta.get("title", name.upper()),
+                "id": folder_name,
+                "title": meta.get("title", folder_name.upper()),
                 "description": meta.get("description", ""),
                 "tags": meta.get("tags", []),
                 "cover": photos[0]["src"],
