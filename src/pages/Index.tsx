@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
@@ -21,36 +22,43 @@ const SERVICES = [
     icon: "Home",
     title: "Монтаж новой кровли",
     desc: "Укладываем металлочерепицу, профнастил, мягкую кровлю. Делаем быстро и с гарантией — независимо от погоды.",
+    href: "/uslugi/montazh-krovli",
   },
   {
     icon: "Building2",
     title: "Мансарда и чердак",
     desc: "Строим второй и третий этаж «под ключ» — увеличиваем жилую площадь без стройки нового дома.",
+    href: "/uslugi/mansarda-i-cherdak",
   },
   {
     icon: "Wrench",
     title: "Реставрация кровли",
     desc: "Устраняем протечки, заменяем повреждённые участки, восстанавливаем старую крышу. Не нужно менять всё — починим то, что течёт.",
+    href: "/uslugi/restavraciya-krovli",
   },
   {
     icon: "Thermometer",
     title: "Утепление кровли и пола",
     desc: "Избавляем от конденсата и сырости. Утепляем кровлю, стены, полы — в доме становится теплее, счета за отопление снижаются.",
+    href: "/uslugi/uteplenie-doma",
   },
   {
     icon: "Trees",
     title: "Дома, бани, беседки",
     desc: "Строим каркасные, брусовые и деревянные дома, бани и беседки. От фундамента до конька — всё под ключ.",
+    href: "/uslugi/stroitelstvo-domov",
   },
   {
     icon: "Layers",
     title: "Фасадные работы",
     desc: "Монтаж сайдинга, водоотливных систем, облицовка фасада. Дом становится красивым снаружи и защищённым от осадков.",
+    href: "/uslugi/fasadnye-raboty",
   },
   {
     icon: "Droplets",
     title: "Исправление конденсата",
     desc: "Если в доме сыро, потеют окна или капает с потолка — найдём причину и устраним раз и навсегда.",
+    href: "/uslugi/ispravlenie-kondensata",
   },
 ];
 
@@ -329,10 +337,10 @@ export default function Index() {
                   </div>
                   <h3 className="font-oswald text-base font-semibold tracking-wide mb-2 uppercase">{s.title}</h3>
                   <p className="text-white/50 text-sm leading-relaxed flex-1">{s.desc}</p>
-                  <button onClick={() => scrollTo("#order")}
-                    className="mt-5 text-[#FF6A00] font-oswald text-xs tracking-widest uppercase flex items-center gap-1.5 hover:gap-3 transition-all group">
-                    Узнать цену <Icon name="ArrowRight" size={12} />
-                  </button>
+                  <Link to={s.href}
+                    className="mt-5 text-[#FF6A00] font-oswald text-xs tracking-widest uppercase flex items-center gap-1.5 hover:gap-3 transition-all">
+                    Подробнее <Icon name="ArrowRight" size={12} />
+                  </Link>
                 </div>
               </RevealBlock>
             ))}
