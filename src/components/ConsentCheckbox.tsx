@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
-interface ConsentCheckboxProps {
+interface CheckboxProps {
   checked: boolean;
   onChange: (v: boolean) => void;
+  label: React.ReactNode;
 }
 
-export default function ConsentCheckbox({ checked, onChange }: ConsentCheckboxProps) {
+function Checkbox({ checked, onChange, label }: CheckboxProps) {
   return (
     <label className="flex items-start gap-2.5 cursor-pointer">
       <div className="relative flex-shrink-0 mt-0.5">
@@ -25,19 +26,59 @@ export default function ConsentCheckbox({ checked, onChange }: ConsentCheckboxPr
           )}
         </div>
       </div>
-      <span className="text-xs text-gray-500 leading-relaxed select-none">
-        Я даю согласие на обработку персональных данных в соответствии с{" "}
-        <Link
-          to="/privacy"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#FF6A00] underline underline-offset-2 hover:text-[#e05a00] transition-colors"
-          onClick={e => e.stopPropagation()}
-        >
-          Политикой конфиденциальности
-        </Link>
-        . Оператор: самозанятый Кругов М. Г., ИНН 772379179900.
-      </span>
+      <span className="text-xs text-gray-500 leading-relaxed select-none">{label}</span>
     </label>
+  );
+}
+
+interface ConsentBlockProps {
+  consentData: boolean;
+  onConsentData: (v: boolean) => void;
+  consentPolicy: boolean;
+  onConsentPolicy: (v: boolean) => void;
+}
+
+export default function ConsentCheckbox({
+  consentData,
+  onConsentData,
+  consentPolicy,
+  onConsentPolicy,
+}: ConsentBlockProps) {
+  return (
+    <div className="space-y-2.5">
+      <Checkbox
+        checked={consentData}
+        onChange={onConsentData}
+        label="Я даю согласие на обработку персональных данных"
+      />
+      <Checkbox
+        checked={consentPolicy}
+        onChange={onConsentPolicy}
+        label={
+          <>
+            Я ознакомлен(а) и соглашаюсь с{" "}
+            <Link
+              to="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#FF6A00] underline underline-offset-2 hover:text-[#e05a00] transition-colors"
+              onClick={e => e.stopPropagation()}
+            >
+              политикой конфиденциальности
+            </Link>
+            {" "}и{" "}
+            <Link
+              to="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#FF6A00] underline underline-offset-2 hover:text-[#e05a00] transition-colors"
+              onClick={e => e.stopPropagation()}
+            >
+              правилами использования сайта
+            </Link>
+          </>
+        }
+      />
+    </div>
   );
 }

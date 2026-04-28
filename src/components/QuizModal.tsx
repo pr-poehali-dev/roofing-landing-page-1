@@ -69,8 +69,11 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
   const [workType, setWorkType] = useState<string | null>(null);
   const [material, setMaterial] = useState<string | null>(null);
   const [phone, setPhone] = useState("");
-  const [consent, setConsent] = useState(false);
+  const [consentData, setConsentData] = useState(false);
+  const [consentPolicy, setConsentPolicy] = useState(false);
   const [sent, setSent] = useState(false);
+
+  const allConsented = consentData && consentPolicy;
 
   const handleClose = () => {
     onClose();
@@ -79,14 +82,15 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
       setWorkType(null);
       setMaterial(null);
       setPhone("");
-      setConsent(false);
+      setConsentData(false);
+      setConsentPolicy(false);
       setSent(false);
     }, 300);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!consent) return;
+    if (!allConsented) return;
     setSent(true);
   };
 
@@ -248,13 +252,16 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
               </div>
 
               <div className="mb-4">
-                <ConsentCheckbox checked={consent} onChange={setConsent} />
+                <ConsentCheckbox
+                  consentData={consentData} onConsentData={setConsentData}
+                  consentPolicy={consentPolicy} onConsentPolicy={setConsentPolicy}
+                />
               </div>
 
-              <button type="submit" disabled={!consent}
+              <button type="submit" disabled={!allConsented}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
-                  consent
+                  allConsented
                     ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}>

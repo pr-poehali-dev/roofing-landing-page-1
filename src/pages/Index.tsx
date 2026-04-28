@@ -114,8 +114,10 @@ function SectionHead({ label, title, sub }: { label: string; title: string; sub?
 
 function HeroForm() {
   const [form, setForm] = useState({ name: "", phone: "" });
-  const [consent, setConsent] = useState(false);
+  const [consentData, setConsentData] = useState(false);
+  const [consentPolicy, setConsentPolicy] = useState(false);
   const [sent, setSent] = useState(false);
+  const allConsented = consentData && consentPolicy;
 
   if (sent) return (
     <div className="bg-white border border-gray-200 shadow-xl p-6 text-center">
@@ -128,7 +130,7 @@ function HeroForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (consent) setSent(true); }}
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) setSent(true); }}
       className="bg-white border border-gray-200 shadow-xl p-6 md:p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -146,11 +148,14 @@ function HeroForm() {
           className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors bg-gray-50" />
       </div>
       <div className="mb-4">
-        <ConsentCheckbox checked={consent} onChange={setConsent} />
+        <ConsentCheckbox
+          consentData={consentData} onConsentData={setConsentData}
+          consentPolicy={consentPolicy} onConsentPolicy={setConsentPolicy}
+        />
       </div>
-      <button type="submit" disabled={!consent}
+      <button type="submit" disabled={!allConsented}
         className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
-          consent ? "orange-pulse bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+          allConsented ? "orange-pulse bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
         }`}
         style={{ fontFamily: "'Oswald',sans-serif" }}>
         Вызвать замерщика
@@ -263,8 +268,10 @@ function Calculator() {
 
 function ConsultForm() {
   const [form, setForm] = useState({ name: "", phone: "", question: "" });
-  const [consent, setConsent] = useState(false);
+  const [consentData, setConsentData] = useState(false);
+  const [consentPolicy, setConsentPolicy] = useState(false);
   const [sent, setSent] = useState(false);
+  const allConsented = consentData && consentPolicy;
 
   if (sent) return (
     <div className="max-w-xl mx-auto text-center py-10">
@@ -277,7 +284,7 @@ function ConsultForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (consent) setSent(true); }} className="max-w-2xl mx-auto">
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) setSent(true); }} className="max-w-2xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
           <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[10px] tracking-widest text-gray-500 uppercase block mb-1.5">Ваше имя</label>
@@ -299,11 +306,14 @@ function ConsultForm() {
           className="w-full border border-gray-300 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors resize-none" />
       </div>
       <div className="mb-5">
-        <ConsentCheckbox checked={consent} onChange={setConsent} />
+        <ConsentCheckbox
+          consentData={consentData} onConsentData={setConsentData}
+          consentPolicy={consentPolicy} onConsentPolicy={setConsentPolicy}
+        />
       </div>
-      <button type="submit" disabled={!consent}
+      <button type="submit" disabled={!allConsented}
         className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
-          consent ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+          allConsented ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
         }`}
         style={{ fontFamily: "'Oswald',sans-serif" }}>
         Перезвоните мне через 15 минут
@@ -797,11 +807,18 @@ export default function Index() {
           <div style={{ fontFamily: "'Oswald',sans-serif" }} className="text-lg font-bold tracking-widest uppercase text-white">
             КРОВ<span className="text-[#FF6A00]">ЕЛЬ</span>
           </div>
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex flex-col items-center gap-1.5 text-center">
             <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
-            <Link to="/privacy" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
-              Политика конфиденциальности
-            </Link>
+            <p className="text-gray-600 text-xs">Оператор ПД: самозанятый Кругов М. Г., ИНН 772379179900</p>
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              <Link to="/privacy" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
+                Политика конфиденциальности
+              </Link>
+              <span className="text-gray-700 text-xs">·</span>
+              <Link to="/terms" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
+                Правила использования
+              </Link>
+            </div>
           </div>
           <a href="tel:+79001234567"
             style={{ fontFamily: "'Oswald',sans-serif" }}

@@ -10,7 +10,8 @@ interface ContactModalProps {
 
 export default function ContactModal({ open, onClose, title = "Получить консультацию" }: ContactModalProps) {
   const [form, setForm] = useState({ name: "", phone: "", question: "" });
-  const [consent, setConsent] = useState(false);
+  const [consentData, setConsentData] = useState(false);
+  const [consentPolicy, setConsentPolicy] = useState(false);
   const [sent, setSent] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,8 @@ export default function ContactModal({ open, onClose, title = "Получить 
     if (!open) {
       setTimeout(() => {
         setForm({ name: "", phone: "", question: "" });
-        setConsent(false);
+        setConsentData(false);
+        setConsentPolicy(false);
         setSent(false);
       }, 300);
     }
@@ -38,9 +40,11 @@ export default function ContactModal({ open, onClose, title = "Получить 
 
   if (!open) return null;
 
+  const allConsented = consentData && consentPolicy;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!consent) return;
+    if (!allConsented) return;
     setSent(true);
   };
 
@@ -116,12 +120,15 @@ export default function ContactModal({ open, onClose, title = "Получить 
                 </div>
               </div>
               <div className="mb-4">
-                <ConsentCheckbox checked={consent} onChange={setConsent} />
+                <ConsentCheckbox
+                  consentData={consentData} onConsentData={setConsentData}
+                  consentPolicy={consentPolicy} onConsentPolicy={setConsentPolicy}
+                />
               </div>
-              <button type="submit" disabled={!consent}
+              <button type="submit" disabled={!allConsented}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
-                  consent
+                  allConsented
                     ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}>

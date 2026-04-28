@@ -70,8 +70,10 @@ const PROCESS_STEPS = [
 
 function QuickForm({ cta }: { cta: string }) {
   const [form, setForm] = useState({ name: "", phone: "" });
-  const [consent, setConsent] = useState(false);
+  const [consentData, setConsentData] = useState(false);
+  const [consentPolicy, setConsentPolicy] = useState(false);
   const [sent, setSent] = useState(false);
+  const allConsented = consentData && consentPolicy;
 
   if (sent) return (
     <div className="bg-white border border-gray-200 shadow-md p-8 text-center">
@@ -84,7 +86,7 @@ function QuickForm({ cta }: { cta: string }) {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (consent) setSent(true); }}
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) setSent(true); }}
       className="bg-white border border-gray-200 shadow-md p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -100,12 +102,15 @@ function QuickForm({ cta }: { cta: string }) {
           className="w-full border border-gray-300 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors" />
       </div>
       <div className="mb-4">
-        <ConsentCheckbox checked={consent} onChange={setConsent} />
+        <ConsentCheckbox
+          consentData={consentData} onConsentData={setConsentData}
+          consentPolicy={consentPolicy} onConsentPolicy={setConsentPolicy}
+        />
       </div>
-      <button type="submit" disabled={!consent}
+      <button type="submit" disabled={!allConsented}
         style={{ fontFamily: "'Oswald',sans-serif" }}
         className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
-          consent ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+          allConsented ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
         }`}>
         Перезвоните мне через 5 минут
       </button>
@@ -473,11 +478,18 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             className="text-base font-bold tracking-widest uppercase text-white">
             КРОВ<span className="text-[#FF6A00]">ЕЛЬ</span>
           </Link>
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex flex-col items-center gap-1.5 text-center">
             <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
-            <Link to="/privacy" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
-              Политика конфиденциальности
-            </Link>
+            <p className="text-gray-600 text-xs">Оператор ПД: самозанятый Кругов М. Г., ИНН 772379179900</p>
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              <Link to="/privacy" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
+                Политика конфиденциальности
+              </Link>
+              <span className="text-gray-700 text-xs">·</span>
+              <Link to="/terms" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
+                Правила использования
+              </Link>
+            </div>
           </div>
           <a href="tel:+79001234567"
             style={{ fontFamily: "'Oswald',sans-serif" }}

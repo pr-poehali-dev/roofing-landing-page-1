@@ -13,6 +13,7 @@ import StroitelstvoDomov from "./pages/services/StroitelstvoDomov";
 import FasadnyeRaboty from "./pages/services/FasadnyeRaboty";
 import IspravlenieKondensata from "./pages/services/IspravlenieKondensata";
 import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/uslugi/fasadnye-raboty" element={<FasadnyeRaboty />} />
           <Route path="/uslugi/ispravlenie-kondensata" element={<IspravlenieKondensata />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
