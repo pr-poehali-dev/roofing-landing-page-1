@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import ContactModal from "@/components/ContactModal";
 import PromoBanner from "@/components/PromoBanner";
+import QuizModal from "@/components/QuizModal";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
 const IMG_HOUSE = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg";
@@ -304,6 +305,7 @@ function ConsultForm() {
 
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [quizOpen, setQuizOpen] = useState(false);
   const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
   const openModal = (title: string) => setModal({ open: true, title });
   const closeModal = () => setModal(p => ({ ...p, open: false }));
@@ -316,6 +318,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-gray-900 overflow-x-hidden" style={{ fontFamily: "'Roboto',sans-serif" }}>
       <ContactModal open={modal.open} onClose={closeModal} title={modal.title} />
+      <QuizModal open={quizOpen} onClose={() => setQuizOpen(false)} />
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
@@ -403,6 +406,23 @@ export default function Index() {
                   style={{ animationDelay: "0.2s" }}>
                   Монтаж, ремонт и утепление кровли. Замер через 3 часа — бесплатно. Гарантия 5 лет.
                 </p>
+                <div className="animate-fade-in-up flex flex-wrap gap-3 mb-6" style={{ animationDelay: "0.25s" }}>
+                  <button
+                    onClick={() => setQuizOpen(true)}
+                    style={{ fontFamily: "'Oswald',sans-serif" }}
+                    className="flex items-center gap-2.5 bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors"
+                  >
+                    <Icon name="ClipboardList" size={16} />
+                    Рассчитать стоимость
+                  </button>
+                  <button
+                    onClick={() => openModal("Вызвать замерщика")}
+                    style={{ fontFamily: "'Oswald',sans-serif" }}
+                    className="flex items-center gap-2.5 border-2 border-white/40 text-white font-semibold text-sm tracking-widest px-7 py-4 uppercase hover:border-[#FF6A00] hover:text-[#FF6A00] transition-colors"
+                  >
+                    Вызвать замерщика
+                  </button>
+                </div>
                 <div className="animate-fade-in-up flex flex-wrap gap-3 mb-10" style={{ animationDelay: "0.3s" }}>
                   {[
                     { icon: "Zap", text: "Крыша за 5 дней" },
