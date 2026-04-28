@@ -17,25 +17,43 @@ function ym(goal: string, params?: object) {
   }
 }
 
+// ─── Единая цель конверсии ────────────────────────────────────────────────────
+
+/** Срабатывает при любой отправке лида с любой формы */
+const trackConversion = (source: string) =>
+  ym("conversion", { source });
+
 // ─── Формы ────────────────────────────────────────────────────────────────────
 
 /** Форма «Вызвать замерщика» в шапке главной страницы */
-export const trackHeroFormSubmit = () => ym("hero_form_submit");
+export const trackHeroFormSubmit = () => {
+  ym("hero_form_submit");
+  trackConversion("Форма в шапке");
+};
 
 /** Форма «Получить консультацию» в секции контактов на главной */
-export const trackConsultFormSubmit = () => ym("consult_form_submit");
+export const trackConsultFormSubmit = () => {
+  ym("consult_form_submit");
+  trackConversion("Форма консультации");
+};
 
 /** Форма в модальном окне «Перезвоните мне» */
-export const trackContactModalSubmit = (title: string) =>
+export const trackContactModalSubmit = (title: string) => {
   ym("contact_modal_submit", { title });
+  trackConversion(`Модальное окно: ${title}`);
+};
 
 /** Финальный шаг квиза — отправка телефона */
-export const trackQuizSubmit = (workType: string | null, material: string | null) =>
+export const trackQuizSubmit = (workType: string | null, material: string | null) => {
   ym("quiz_submit", { work_type: workType, material });
+  trackConversion("Квиз");
+};
 
 /** Форма на странице услуги */
-export const trackServiceFormSubmit = (serviceName: string) =>
+export const trackServiceFormSubmit = (serviceName: string) => {
   ym("service_form_submit", { service: serviceName });
+  trackConversion(`Страница услуги: ${serviceName}`);
+};
 
 // ─── Модальные окна ───────────────────────────────────────────────────────────
 
