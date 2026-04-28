@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import Icon from "@/components/ui/icon";
 import { PORTFOLIO_PROJECTS, PortfolioProject as Project } from "@/data/portfolio";
 
@@ -262,10 +263,10 @@ export default function PortfolioGallery({ onModal }: Props) {
         </div>
       )}
 
-      {/* ── Mobile: Bottom Sheet на весь экран с анимацией ── */}
-      {isMobile && openProject && (
+      {/* ── Mobile: Bottom Sheet через portal, покрывает весь сайт ── */}
+      {isMobile && openProject && createPortal(
         <div
-          className="fixed inset-0 z-50 flex flex-col bg-white"
+          className="fixed inset-0 z-[9999] flex flex-col bg-white"
           style={{
             animation: "slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both",
           }}
@@ -354,7 +355,8 @@ export default function PortfolioGallery({ onModal }: Props) {
               </div>
             </>
           )}
-        </div>
+        </div>,
+        document.body
       )}
 
       <style>{`
