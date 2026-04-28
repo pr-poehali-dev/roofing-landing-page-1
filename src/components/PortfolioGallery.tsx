@@ -10,7 +10,15 @@ export default function PortfolioGallery({ onModal }: Props) {
   const projects = PORTFOLIO_PROJECTS;
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const [zoomIdx, setZoomIdx] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const handleOpenProject = (p: Project) => {
     setOpenProject(p);
@@ -237,14 +245,14 @@ export default function PortfolioGallery({ onModal }: Props) {
       </div>
 
       {/* ── Overlay (только десктоп) ── */}
-      {openProject && (
-        <div className="hidden md:block fixed inset-0 z-40 bg-black/30"
+      {openProject && !isMobile && (
+        <div className="fixed inset-0 z-40 bg-black/30"
           onClick={handleCloseProject} />
       )}
 
       {/* ── Desktop: центрированный попап ── */}
-      {openProject && (
-        <div className="hidden md:flex fixed inset-0 z-50 items-center justify-center p-6 pointer-events-none">
+      {openProject && !isMobile && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 pointer-events-none">
           <div ref={popupRef}
             className="w-full bg-white shadow-2xl flex flex-col pointer-events-auto"
             style={{ maxWidth: 680, maxHeight: "88vh" }}
@@ -255,8 +263,8 @@ export default function PortfolioGallery({ onModal }: Props) {
       )}
 
       {/* ── Mobile: Bottom Sheet на всю ширину, прижат к низу ── */}
-      {openProject && (
-        <div className="md:hidden fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white shadow-[0_-4px_24px_rgba(0,0,0,0.18)]"
+      {openProject && isMobile && (
+        <div className="fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white shadow-[0_-4px_24px_rgba(0,0,0,0.18)]"
           style={{ height: "80vh" }}
           onClick={e => e.stopPropagation()}>
 
