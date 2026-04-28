@@ -348,7 +348,7 @@ export default function Index() {
         <div className="max-w-7xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <button onClick={() => scrollTo("#hero")} className="shrink-0">
             <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-12 w-auto" />
+              alt="На Высоте — Кровельные и фасадные работы" className="h-9 w-auto rounded object-contain" />
           </button>
           <div className="hidden xl:flex items-center gap-6">
             {NAV.map(l => (

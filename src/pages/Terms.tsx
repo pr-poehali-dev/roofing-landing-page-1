@@ -14,7 +14,7 @@ export default function Terms() {
         <div className="max-w-4xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <Link to="/">
             <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-12 w-auto" />
+              alt="На Высоте — Кровельные и фасадные работы" className="h-9 w-auto rounded object-contain" />
           </Link>
           <Link to="/" className="text-sm text-gray-500 hover:text-[#FF6A00] transition-colors">
             ← На главную
