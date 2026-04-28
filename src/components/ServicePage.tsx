@@ -256,10 +256,10 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <div className="flex items-center gap-3 mb-3"><ALine /><OL>Что вы получаете</OL></div>
             <h2 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-3xl font-bold uppercase text-gray-900 mb-8">Результат работы</h2>
           </RevealBlock>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
             {benefits.map(b => (
-              <RevealBlock key={b.text}>
-                <div className="flex items-start gap-4 bg-white border border-gray-200 p-5 hover:border-[#FF6A00] transition-colors">
+              <RevealBlock key={b.text} className="h-full">
+                <div className="flex items-start gap-4 bg-white border border-gray-200 p-5 hover:border-[#FF6A00] transition-colors h-full">
                   <div className="flex-shrink-0 w-9 h-9 bg-[#FF6A00] flex items-center justify-center mt-0.5">
                     <Icon name={b.icon as any} size={16} className="text-white" />
                   </div>
@@ -398,10 +398,10 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <div className="flex items-center gap-3 mb-3"><ALine /><OL>Наши преимущества</OL></div>
             <h2 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-3xl font-bold uppercase text-white mb-10">Почему выбирают нас</h2>
           </RevealBlock>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
             {WHY_SERVICE.map(w => (
-              <RevealBlock key={w.title}>
-                <div className="border border-white/10 p-6 hover:border-[#FF6A00] transition-colors bg-white/5">
+              <RevealBlock key={w.title} className="h-full">
+                <div className="border border-white/10 p-6 hover:border-[#FF6A00] transition-colors bg-white/5 h-full">
                   <div className="w-10 h-10 bg-[#FF6A00] flex items-center justify-center mb-4">
                     <Icon name={w.icon as any} size={18} className="text-white" />
                   </div>
