@@ -109,53 +109,42 @@ export default function PortfolioGallery({ onModal }: Props) {
       {zoomIdx !== null ? (
         /* ── Увеличенное фото внутри попапа ── */
         <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-          {/* Back + counter */}
+          {/* Counter */}
           <div className="flex-shrink-0 flex items-center justify-between px-4 py-2 border-b border-gray-100 bg-gray-50">
             <button onClick={() => setZoomIdx(null)}
-              className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 transition-colors text-sm">
+              className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 transition-colors">
               <Icon name="ArrowLeft" size={15} />
-              <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xs tracking-widest uppercase">К фото</span>
+              <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xs tracking-widest uppercase">Назад</span>
             </button>
             <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-gray-400 text-xs font-bold">
               {zoomIdx + 1} / {openProject.photos.length}
             </span>
-            <div className="flex items-center gap-2">
-              <button onClick={zoomPrev}
-                className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 hover:bg-[#FF6A00] hover:text-white transition-colors text-gray-600">
-                <Icon name="ChevronLeft" size={16} />
-              </button>
-              <button onClick={zoomNext}
-                className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 hover:bg-[#FF6A00] hover:text-white transition-colors text-gray-600">
-                <Icon name="ChevronRight" size={16} />
-              </button>
-            </div>
+            <div className="w-16" />
           </div>
 
-          {/* Big photo */}
-          <div className="flex-1 flex items-center justify-center bg-gray-900 min-h-0 cursor-pointer"
-            onClick={() => setZoomIdx(null)}>
+          {/* Big photo с навигацией по бокам */}
+          <div className="flex-1 flex items-center justify-center bg-gray-900 min-h-0 relative">
+            {/* Prev */}
+            <button onClick={zoomPrev}
+              className="absolute left-3 z-10 w-10 h-10 rounded-full bg-black/40 hover:bg-[#FF6A00] text-white flex items-center justify-center transition-colors">
+              <Icon name="ChevronLeft" size={20} />
+            </button>
+
+            {/* Фото — клик возвращает к сетке */}
             <img
               key={zoomIdx}
               src={openProject.photos[zoomIdx].src}
               alt=""
-              className="max-w-full max-h-full object-contain select-none"
-              style={{ maxHeight: "100%" }}
-              onClick={e => e.stopPropagation()}
+              className="max-w-full max-h-full object-contain select-none cursor-pointer"
+              style={{ maxHeight: "100%", padding: "0 56px" }}
+              onClick={() => setZoomIdx(null)}
             />
-          </div>
 
-          {/* Thumbnail strip */}
-          <div className="flex-shrink-0 bg-gray-900 px-3 py-2 overflow-x-auto border-t border-white/10">
-            <div className="flex gap-1.5 w-max">
-              {openProject.photos.map((ph, i) => (
-                <button key={i} onClick={() => setZoomIdx(i)}
-                  className={`w-12 h-12 flex-shrink-0 overflow-hidden border-2 transition-all ${
-                    i === zoomIdx ? "border-[#FF6A00] opacity-100" : "border-transparent opacity-40 hover:opacity-70"
-                  }`}>
-                  <img src={ph.src} alt="" className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
+            {/* Next */}
+            <button onClick={zoomNext}
+              className="absolute right-3 z-10 w-10 h-10 rounded-full bg-black/40 hover:bg-[#FF6A00] text-white flex items-center justify-center transition-colors">
+              <Icon name="ChevronRight" size={20} />
+            </button>
           </div>
         </div>
       ) : (
