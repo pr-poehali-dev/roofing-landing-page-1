@@ -166,7 +166,7 @@ function HeroForm() {
 
 // ── Calculator ────────────────────────────────────────────────────────────────
 
-function Calculator() {
+function Calculator({ onModal }: { onModal: (title: string) => void }) {
   const [area, setArea] = useState(80);
   const [typeIdx, setTypeIdx] = useState(1);
   const selected = PRICE_TYPES[typeIdx];
@@ -251,7 +251,7 @@ function Calculator() {
                   ))}
                 </div>
               </div>
-              <button onClick={() => openModal("Получить точную смету")}
+              <button onClick={() => onModal("Получить точную смету")}
                 className="block w-full bg-gray-900 text-white text-center font-bold text-sm tracking-widest py-4 uppercase hover:bg-black transition-colors"
                 style={{ fontFamily: "'Oswald',sans-serif" }}>
                 Получить точную смету
@@ -482,7 +482,7 @@ export default function Index() {
       </section>
 
       {/* ── CALCULATOR ── */}
-      <Calculator />
+      <Calculator onModal={openModal} />
 
       {/* ── PRICES ── */}
       <section id="prices" className="py-24 bg-white">
