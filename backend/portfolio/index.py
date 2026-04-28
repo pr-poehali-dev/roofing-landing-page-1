@@ -36,6 +36,15 @@ def handler(event: dict, context) -> dict:
     bucket = "files"
     prefix = "photo/"
 
+    # Отладка: все файлы в бакете с префиксом photo/
+    all_keys = []
+    try:
+        resp = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
+        all_keys = [o["Key"] for o in resp.get("Contents", [])]
+        print(f"[DEBUG] all keys under photo/: {all_keys}")
+    except Exception as e:
+        print(f"[DEBUG] list error: {e}")
+
     paginator = s3.get_paginator("list_objects_v2")
     pages = paginator.paginate(Bucket=bucket, Prefix=prefix, Delimiter="/")
 
