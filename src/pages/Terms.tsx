@@ -170,7 +170,7 @@ export default function Terms() {
             </h2>
             <div className="bg-white border border-gray-200 p-5">
               <p><strong>Администратор сайта:</strong> {OPERATOR}</p>
-              <p className="mt-1"><strong>Телефон:</strong> +7 (900) 123-45-67</p>
+              <p className="mt-1"><strong>Телефон:</strong> +7 (968) 100-32-43</p>
             </div>
             <p className="mt-4">
               Также ознакомьтесь с нашей{" "}

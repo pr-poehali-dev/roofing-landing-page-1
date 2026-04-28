@@ -140,7 +140,7 @@ export default function Privacy() {
               <li>Обжаловать действия или бездействие Оператора в уполномоченном органе</li>
             </ul>
             <p className="mt-3">
-              Для реализации прав Пользователь может обратиться по телефону: <strong>+7 (900) 123-45-67</strong>
+              Для реализации прав Пользователь может обратиться по телефону: <strong>+7 (968) 100-32-43</strong>
             </p>
           </section>
 
@@ -173,7 +173,7 @@ export default function Privacy() {
             <p>По вопросам обработки персональных данных:</p>
             <div className="bg-white border border-gray-200 p-5 mt-3">
               <p><strong>Оператор:</strong> {OPERATOR}</p>
-              <p className="mt-1"><strong>Телефон:</strong> +7 (900) 123-45-67</p>
+              <p className="mt-1"><strong>Телефон:</strong> +7 (968) 100-32-43</p>
             </div>
           </section>
 

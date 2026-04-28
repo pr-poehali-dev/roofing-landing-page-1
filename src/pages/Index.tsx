@@ -391,11 +391,11 @@ export default function Index() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-3">
-            <a href="tel:+79001234567" onClick={() => trackPhoneClick("nav")}
+            <a href="tel:+79681003243" onClick={() => trackPhoneClick("nav")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="flex items-center gap-2 text-sm tracking-wider text-gray-700 hover:text-[#FF6A00] transition-colors font-semibold">
               <Icon name="Phone" size={13} className="text-[#FF6A00]" />
-              +7 (900) 123-45-67
+              +7 (968) 100-32-43
             </a>
             <button onClick={() => openModal("Бесплатная консультация", "nav")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
@@ -416,10 +416,10 @@ export default function Index() {
                 {l.label}
               </button>
             ))}
-            <a href="tel:+79001234567" onClick={() => trackPhoneClick("mobile_menu")}
+            <a href="tel:+79681003243" onClick={() => trackPhoneClick("mobile_menu")}
               className="mt-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
               <Icon name="Phone" size={14} className="text-[#FF6A00]" />
-              +7 (900) 123-45-67
+              +7 (968) 100-32-43
             </a>
             <button onClick={() => openModal("Бесплатная консультация", "mobile_menu")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
@@ -810,8 +810,8 @@ export default function Index() {
           <SectionHead label="Связаться" title="Контакты" />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: "Phone", title: "Телефон", val: "+7 (900) 123-45-67", sub: "Ежедневно 8:00–20:00" },
-              { icon: "MessageCircle", title: "WhatsApp / Telegram", val: "+7 (900) 123-45-67", sub: "Пишите в любое время" },
+              { icon: "Phone", title: "Телефон", val: "+7 (968) 100-32-43", sub: "Ежедневно 8:00–20:00" },
+              { icon: "MessageCircle", title: "WhatsApp / Telegram", val: "+7 (968) 100-32-43", sub: "Пишите в любое время" },
               { icon: "MapPin", title: "Зона работы", val: "Москва и область", sub: "Выезжаем в любой район МО" },
               { icon: "Clock", title: "График", val: "8:00 — до темноты", sub: "Без выходных в сезон" },
             ].map(c => (
@@ -851,11 +851,11 @@ export default function Index() {
               </Link>
             </div>
           </div>
-          <a href="tel:+79001234567" onClick={() => trackPhoneClick("footer")}
+          <a href="tel:+79681003243" onClick={() => trackPhoneClick("footer")}
             style={{ fontFamily: "'Oswald',sans-serif" }}
             className="flex items-center gap-2 text-sm text-[#FF6A00] tracking-wider hover:text-[#e05a00] transition-colors">
             <Icon name="Phone" size={13} />
-            +7 (900) 123-45-67
+            +7 (968) 100-32-43
           </a>
         </div>
       </footer>

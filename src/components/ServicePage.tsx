@@ -174,10 +174,10 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
               <Icon name="ArrowLeft" size={12} />
               Все услуги
             </Link>
-            <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_nav")}
+            <a href="tel:+79681003243" onClick={() => trackPhoneClick("service_nav")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-[#FF6A00] text-white font-semibold text-xs tracking-widest px-4 py-2.5 uppercase hover:bg-[#e05a00] transition-colors">
-              +7 (900) 123-45-67
+              +7 (968) 100-32-43
             </a>
           </div>
         </div>
@@ -224,7 +224,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
                 className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors">
                 Перезвоните мне
               </button>
-              <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_hero")}
+              <a href="tel:+79681003243" onClick={() => trackPhoneClick("service_hero")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="flex items-center gap-2 border-2 border-white/40 text-white font-semibold text-sm tracking-widest px-7 py-4 uppercase hover:border-[#FF6A00] hover:text-[#FF6A00] transition-colors">
                 <Icon name="Phone" size={14} />
@@ -463,7 +463,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <p className="text-white/80 text-sm mt-1">Перезвоним через 5 минут — договоримся о замере</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_cta")}
+            <a href="tel:+79681003243" onClick={() => trackPhoneClick("service_cta")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="flex items-center gap-2 bg-white text-gray-900 font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-gray-100 transition-colors">
               <Icon name="Phone" size={14} />
@@ -495,11 +495,11 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
               </Link>
             </div>
           </div>
-          <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_footer")}
+          <a href="tel:+79681003243" onClick={() => trackPhoneClick("service_footer")}
             style={{ fontFamily: "'Oswald',sans-serif" }}
             className="flex items-center gap-2 text-sm text-[#FF6A00] tracking-wider hover:text-[#e05a00] transition-colors">
             <Icon name="Phone" size={13} />
-            +7 (900) 123-45-67
+            +7 (968) 100-32-43
           </a>
         </div>
       </footer>
