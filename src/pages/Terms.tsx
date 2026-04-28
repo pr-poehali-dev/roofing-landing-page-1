@@ -13,7 +13,7 @@ export default function Terms() {
       <nav className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <Link to="/">
-            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/bucket/1006c4f4-b5c5-4745-9e72-9744a3cb9361.svg"
+            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
               alt="На Высоте — Кровельные и фасадные работы" className="h-12 w-auto" />
           </Link>
           <Link to="/" className="text-sm text-gray-500 hover:text-[#FF6A00] transition-colors">
@@ -189,8 +189,8 @@ export default function Terms() {
       <footer className="bg-gray-900 border-t border-gray-800 py-6 mt-10">
         <div className="max-w-4xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-4">
           <Link to="/">
-            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/bucket/1006c4f4-b5c5-4745-9e72-9744a3cb9361.svg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-10 w-auto brightness-0 invert" />
+            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
+              alt="На Высоте — Кровельные и фасадные работы" className="h-10 w-auto" />
           </Link>
           <div className="flex flex-col items-center gap-1 text-center">
             <p className="text-gray-500 text-xs">© 2024 {OPERATOR}.</p>
