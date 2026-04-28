@@ -1,8 +1,15 @@
 import ServicePage from "@/components/ServicePage";
 
+const PHOTOS = [
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/aeac38ea-0c0e-4f34-8cf4-d4ad4cb20a45.jpg", caption: "Укладка металлочерепицы на объекте" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg", caption: "Монтаж кровельного покрытия" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/c77f04e1-52d9-455c-9329-d9ed6ee8f8c2.jpg", caption: "Результат: до и после" },
+];
+
 export default function MontazhKrovli() {
   return (
     <ServicePage
+      photos={PHOTOS}
       title="Монтаж нового покрытия кровли"
       subtitle="Ставим крышу с нуля — быстро, надёжно, с гарантией 5 лет"
       description="Укладываем металлочерепицу, профнастил и мягкую кровлю на частных домах, дачах и банях. Работаем в любую погоду — дождь и ветер нас не останавливают. Стандартный дом кроем за 5 рабочих дней."

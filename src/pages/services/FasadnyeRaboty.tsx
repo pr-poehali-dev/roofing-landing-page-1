@@ -1,8 +1,15 @@
 import ServicePage from "@/components/ServicePage";
 
+const PHOTOS = [
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/3b4e5920-a33c-42e3-99e7-336fa6db21ab.jpg", caption: "Монтаж сайдинга на фасад" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg", caption: "Готовый фасад дома" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/c77f04e1-52d9-455c-9329-d9ed6ee8f8c2.jpg", caption: "Фасад до и после" },
+];
+
 export default function FasadnyeRaboty() {
   return (
     <ServicePage
+      photos={PHOTOS}
       title="Фасадные работы"
       subtitle="Монтаж сайдинга и водоотливов — дом выглядит новым и защищён от осадков"
       description="Монтируем виниловый, металлический и фиброцементный сайдинг на частных домах и дачах. Устанавливаем водоотливные системы. После работ фасад надёжно защищён от дождя, ветра и мороза, а дом выглядит аккуратно и современно."

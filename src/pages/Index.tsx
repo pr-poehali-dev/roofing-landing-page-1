@@ -428,33 +428,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ── SERVICES ── */}
-      <section id="services" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-5">
-          <SectionHead label="Что мы делаем" title="Наши услуги" sub="Работаем с частными домами, дачами и коттеджами — от небольшого ремонта до стройки под ключ." />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {SERVICES.map(s => (
-              <RevealBlock key={s.title}>
-                <div className="service-card p-7 h-full flex flex-col bg-white">
-                  <div className="w-11 h-11 bg-orange-50 flex items-center justify-center mb-5">
-                    <Icon name={s.icon as any} size={20} className="text-[#FF6A00]" />
-                  </div>
-                  <Link to={s.href}>
-                    <h3 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-semibold tracking-wide mb-2 uppercase text-gray-900 hover:text-[#FF6A00] transition-colors cursor-pointer">{s.title}</h3>
-                  </Link>
-                  <p className="text-gray-500 text-sm leading-relaxed flex-1">{s.desc}</p>
-                  <Link to={s.href}
-                    style={{ fontFamily: "'Oswald',sans-serif" }}
-                    className="mt-5 inline-flex items-center gap-1.5 bg-[#FF6A00] text-white text-xs tracking-widest uppercase px-4 py-2.5 hover:bg-[#e05a00] transition-colors font-semibold self-start">
-                    Подробнее <Icon name="ArrowRight" size={12} />
-                  </Link>
-                </div>
-              </RevealBlock>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── CALCULATOR ── */}
       <Calculator />
 
@@ -500,6 +473,33 @@ export default function Index() {
             </div>
             <p className="text-gray-400 text-xs mt-4 text-center">* Цены указаны на работы без учёта материалов. Окончательная стоимость — после замера.</p>
           </RevealBlock>
+        </div>
+      </section>
+
+      {/* ── SERVICES ── */}
+      <section id="services" className="py-24 bg-[#f4f4f4]">
+        <div className="max-w-7xl mx-auto px-5">
+          <SectionHead label="Что мы делаем" title="Наши услуги" sub="Работаем с частными домами, дачами и коттеджами — от небольшого ремонта до стройки под ключ." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {SERVICES.map(s => (
+              <RevealBlock key={s.title}>
+                <div className="service-card p-7 h-full flex flex-col bg-white">
+                  <div className="w-11 h-11 bg-orange-50 flex items-center justify-center mb-5">
+                    <Icon name={s.icon as any} size={20} className="text-[#FF6A00]" />
+                  </div>
+                  <Link to={s.href}>
+                    <h3 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-semibold tracking-wide mb-2 uppercase text-gray-900 hover:text-[#FF6A00] transition-colors cursor-pointer">{s.title}</h3>
+                  </Link>
+                  <p className="text-gray-500 text-sm leading-relaxed flex-1">{s.desc}</p>
+                  <Link to={s.href}
+                    style={{ fontFamily: "'Oswald',sans-serif" }}
+                    className="mt-5 inline-flex items-center gap-1.5 bg-[#FF6A00] text-white text-xs tracking-widest uppercase px-4 py-2.5 hover:bg-[#e05a00] transition-colors font-semibold self-start">
+                    Подробнее <Icon name="ArrowRight" size={12} />
+                  </Link>
+                </div>
+              </RevealBlock>
+            ))}
+          </div>
         </div>
       </section>
 

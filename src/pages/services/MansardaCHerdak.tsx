@@ -1,8 +1,15 @@
 import ServicePage from "@/components/ServicePage";
 
+const PHOTOS = [
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/3f325abb-e9d5-4232-bc4b-28c3c7c85d89.jpg", caption: "Мансардная комната после строительства" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg", caption: "Готовый дом с мансардой" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg", caption: "Строительство мансардной кровли" },
+];
+
 export default function MansardaCHerdak() {
   return (
     <ServicePage
+      photos={PHOTOS}
       title="Мансарда и чердачная крыша"
       subtitle="Строим второй и третий этаж — добавляем жилую площадь без нового фундамента"
       description="Строим мансардные и чердачные крыши над готовым первым этажом. Это выгодный способ увеличить площадь дома: не нужен новый фундамент, не нужно переезжать. Работаем с каркасными, брусовыми и кирпичными домами."

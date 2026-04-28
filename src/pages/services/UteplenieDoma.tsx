@@ -1,8 +1,15 @@
 import ServicePage from "@/components/ServicePage";
 
+const PHOTOS = [
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/ba779dcf-6e4d-4370-8b37-e490ec5b2e54.jpg", caption: "Укладка минеральной ваты между стропил" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg", caption: "Утеплённый дом — результат" },
+  { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg", caption: "Работы по утеплению кровли" },
+];
+
 export default function UteplenieDoma() {
   return (
     <ServicePage
+      photos={PHOTOS}
       title="Утепление кровли, домов и полов"
       subtitle="В доме холодно или сыро? Утеплим — станет теплее и счёт за отопление упадёт"
       description="Утепляем кровлю, стены, полы и перекрытия в частных домах и на дачах. Используем качественные материалы — минеральная вата, экструдированный пенополистирол. После утепления в доме держится тепло зимой и прохлада летом."
