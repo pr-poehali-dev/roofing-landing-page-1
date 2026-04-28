@@ -13,7 +13,6 @@ const NAV = [
   { label: "О нас", href: "#about" },
   { label: "Работы", href: "#portfolio" },
   { label: "Отзывы", href: "#reviews" },
-  { label: "Цены", href: "#prices" },
   { label: "Контакты", href: "#contacts" },
 ];
 
@@ -500,47 +499,6 @@ export default function Index() {
               Получить честную смету
             </button>
           </RevealBlock>
-        </div>
-      </section>
-
-      {/* ── PRICES ── */}
-      <section id="prices" className="py-24 bg-[#111]">
-        <div className="max-w-7xl mx-auto px-5">
-          <RevealBlock className="mb-14">
-            <div className="flex items-center gap-3 mb-3"><AccentLine /><OLabel>Стоимость</OLabel></div>
-            <SectionTitle>Цены и сроки</SectionTitle>
-            <p className="text-white/45 text-sm mt-3">Точная цена — после бесплатного замера. Это всегда выгоднее «средней по рынку».</p>
-          </RevealBlock>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {PRICES.map((p) => (
-              <RevealBlock key={p.title}>
-                <div className={`relative p-8 h-full flex flex-col ${p.accent ? "bg-[#FF6A00]" : "service-card bg-[#161616]"}`}>
-                  {p.accent && (
-                    <div className="absolute -top-3 left-8 bg-[#0d0d0d] text-[#FF6A00] font-oswald text-[10px] tracking-widest px-4 py-1">
-                      ПОПУЛЯРНОЕ
-                    </div>
-                  )}
-                  <h3 className={`font-oswald text-lg font-bold uppercase tracking-wide mb-2 ${p.accent ? "text-black" : "text-white"}`}>{p.title}</h3>
-                  <div className={`font-oswald text-3xl font-bold mb-1 ${p.accent ? "text-black" : "text-[#FF6A00]"}`}>{p.price}</div>
-                  <div className={`text-sm mb-7 ${p.accent ? "text-black/65" : "text-white/40"}`}>{p.time}</div>
-                  <ul className="flex-1 space-y-2.5 mb-8">
-                    {p.items.map(item => (
-                      <li key={item} className={`flex items-center gap-2.5 text-sm ${p.accent ? "text-black/80" : "text-white/60"}`}>
-                        <Icon name="Check" size={13} className={p.accent ? "text-black" : "text-[#FF6A00]"} />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <button onClick={() => scrollTo("#order")}
-                    className={`w-full font-oswald font-semibold text-xs tracking-widest py-3 uppercase transition-colors ${p.accent
-                      ? "bg-black text-white hover:bg-[#1a1a1a]"
-                      : "border border-[#FF6A00] text-[#FF6A00] hover:bg-[#FF6A00] hover:text-black"}`}>
-                    Вызвать замерщика
-                  </button>
-                </div>
-              </RevealBlock>
-            ))}
-          </div>
         </div>
       </section>
 
