@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import ContactModal from "@/components/ContactModal";
+import PromoBanner from "@/components/PromoBanner";
 
 export interface ServicePageProps {
   title: string;
@@ -128,6 +129,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 export default function ServicePage({ title, subtitle, description, heroIcon, benefits, steps, faq, cta, photos }: ServicePageProps) {
   const [activePhoto, setActivePhoto] = useState(0);
+  const [bannerVisible, setBannerVisible] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
   const openModal = (t: string) => setModal({ open: true, title: t });
   const closeModal = () => setModal(p => ({ ...p, open: false }));
@@ -141,9 +143,10 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-gray-900 overflow-x-hidden" style={{ fontFamily: "'Roboto',sans-serif" }}>
       <ContactModal open={modal.open} onClose={closeModal} title={modal.title} />
+      <PromoBanner onHeightChange={h => setBannerVisible(h > 0)} />
 
       {/* NAV */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+      <nav className={`fixed inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm transition-all duration-300 ${bannerVisible ? "top-[38px]" : "top-0"}`}>
         <div className="max-w-6xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <Link to="/" style={{ fontFamily: "'Oswald',sans-serif" }}
             className="text-lg font-bold tracking-widest uppercase text-gray-900">
@@ -165,7 +168,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
       </nav>
 
       {/* ── HERO ── */}
-      <section className="pt-[60px] relative overflow-hidden" style={{ minHeight: "75vh" }}>
+      <section className={`${bannerVisible ? "pt-[98px]" : "pt-[60px]"} relative overflow-hidden`} style={{ minHeight: "75vh" }}>
         {/* background image */}
         <div className="absolute inset-0">
           <img

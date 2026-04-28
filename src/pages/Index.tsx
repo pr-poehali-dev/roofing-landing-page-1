@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import ContactModal from "@/components/ContactModal";
+import PromoBanner from "@/components/PromoBanner";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
 const IMG_HOUSE = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg";
@@ -303,6 +304,7 @@ function ConsultForm() {
 
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [bannerVisible, setBannerVisible] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
   const openModal = (title: string) => setModal({ open: true, title });
   const closeModal = () => setModal(p => ({ ...p, open: false }));
@@ -315,9 +317,10 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-gray-900 overflow-x-hidden" style={{ fontFamily: "'Roboto',sans-serif" }}>
       <ContactModal open={modal.open} onClose={closeModal} title={modal.title} />
+      <PromoBanner onHeightChange={h => setBannerVisible(h > 0)} />
 
       {/* ── NAV ── */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+      <nav className={`fixed inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm transition-all duration-300 ${bannerVisible ? "top-[38px]" : "top-0"}`}>
         <div className="max-w-7xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <button onClick={() => scrollTo("#hero")}
             style={{ fontFamily: "'Oswald',sans-serif" }}
@@ -374,7 +377,7 @@ export default function Index() {
       </nav>
 
       {/* ── HERO ── */}
-      <section id="hero" className="pt-[60px]">
+      <section id="hero" className={bannerVisible ? "pt-[98px]" : "pt-[60px]"}>
         <div className="relative min-h-[90vh] flex items-center overflow-hidden">
           <div className="absolute inset-0">
             <img src={IMG_HERO} alt="Кровельные работы" className="w-full h-full object-cover" />
