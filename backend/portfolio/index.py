@@ -1,6 +1,21 @@
 """
-Возвращает список проектов из S3 папки /photo/objN с фотографиями и описаниями.
-Описание проекта хранится в файле photo/objN/meta.json
+Возвращает список проектов галереи.
+Структура проектов задаётся в файле photo/projects.json в S3 хранилище.
+Формат:
+{
+  "projects": [
+    {
+      "id": "obj1",
+      "title": "Монтаж кровли",
+      "description": "Частный дом 160 м², 3 дня",
+      "tags": ["Металлочерепица"],
+      "photos": [
+        "photo/obj1/PHOTO-2026-04-28-23-42-40.jpg",
+        "photo/obj1/PHOTO-2026-04-28-23-42-39.jpg"
+      ]
+    }
+  ]
+}
 """
 import json
 import os
@@ -33,67 +48,31 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 200, "headers": headers, "body": ""}
 
     s3 = get_s3()
-    bucket = "bucket"
-    prefix = "photo/"
 
-    # Получаем ВСЕ объекты под photo/ без delimiter
-    all_objects = []
-    paginator = s3.get_paginator("list_objects_v2")
-    for page in paginator.paginate(Bucket=bucket, Prefix=prefix):
-        for obj in page.get("Contents", []):
-            all_objects.append(obj["Key"])
-
-    print(f"[DEBUG] all objects under photo/: {all_objects}")
-
-    # Группируем по папкам objN
-    folder_files: dict = {}
-    for key in all_objects:
-        parts = key.split("/")
-        # key like: photo/obj1/file.jpg → parts = ["photo", "obj1", "file.jpg"]
-        if len(parts) >= 3 and parts[1].startswith("obj"):
-            folder_name = parts[1]
-            filename = parts[-1]
-            if folder_name not in folder_files:
-                folder_files[folder_name] = []
-            folder_files[folder_name].append((key, filename))
-
-    print(f"[DEBUG] folders found: {list(folder_files.keys())}")
-
+    # Читаем индексный файл projects.json
     projects = []
-    for folder_name in sorted(folder_files.keys()):
-        files = folder_files[folder_name]
-        meta = {"title": folder_name.upper(), "description": "", "tags": []}
-        photos = []
-
-        # Сначала читаем meta.json
-        for key, filename in files:
-            if filename.lower() == "meta.json":
-                try:
-                    resp = s3.get_object(Bucket=bucket, Key=key)
-                    meta = json.loads(resp["Body"].read().decode("utf-8"))
-                    print(f"[DEBUG] loaded meta for {folder_name}: {meta}")
-                except ClientError as e:
-                    print(f"[DEBUG] meta read error: {e}")
-
-        # Затем собираем фото
-        for key, filename in files:
-            if filename.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+    config_key = "photo/projects.json"
+    try:
+        resp = s3.get_object(Bucket="bucket", Key=config_key)
+        config = json.loads(resp["Body"].read().decode("utf-8"))
+        for p in config.get("projects", []):
+            photos = []
+            for photo_key in p.get("photos", []):
                 photos.append({
-                    "src": get_cdn_url(key),
-                    "caption": meta.get("title", folder_name.upper()),
+                    "src": get_cdn_url(photo_key),
+                    "caption": p.get("title", ""),
                 })
-
-        print(f"[DEBUG] {folder_name}: {len(photos)} photos")
-
-        if photos:
-            projects.append({
-                "id": folder_name,
-                "title": meta.get("title", folder_name.upper()),
-                "description": meta.get("description", ""),
-                "tags": meta.get("tags", []),
-                "cover": photos[0]["src"],
-                "photos": photos,
-            })
+            if photos:
+                projects.append({
+                    "id": p.get("id", ""),
+                    "title": p.get("title", ""),
+                    "description": p.get("description", ""),
+                    "tags": p.get("tags", []),
+                    "cover": photos[0]["src"],
+                    "photos": photos,
+                })
+    except ClientError as e:
+        print(f"[INFO] config not found or error: {e}")
 
     return {
         "statusCode": 200,
