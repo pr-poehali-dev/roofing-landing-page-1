@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
+import ContactModal from "@/components/ContactModal";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
 const IMG_HOUSE = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg";
@@ -237,11 +238,11 @@ function Calculator() {
                   ))}
                 </div>
               </div>
-              <a href="#consult"
+              <button onClick={() => openModal("Получить точную смету")}
                 className="block w-full bg-gray-900 text-white text-center font-bold text-sm tracking-widest py-4 uppercase hover:bg-black transition-colors"
                 style={{ fontFamily: "'Oswald',sans-serif" }}>
                 Получить точную смету
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -302,6 +303,9 @@ function ConsultForm() {
 
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
+  const openModal = (title: string) => setModal({ open: true, title });
+  const closeModal = () => setModal(p => ({ ...p, open: false }));
 
   const scrollTo = (href: string) => {
     setMenuOpen(false);
@@ -310,6 +314,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-gray-900 overflow-x-hidden" style={{ fontFamily: "'Roboto',sans-serif" }}>
+      <ContactModal open={modal.open} onClose={closeModal} title={modal.title} />
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
@@ -335,7 +340,7 @@ export default function Index() {
               <Icon name="Phone" size={13} className="text-[#FF6A00]" />
               +7 (900) 123-45-67
             </a>
-            <button onClick={() => scrollTo("#consult")}
+            <button onClick={() => openModal("Бесплатная консультация")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-[#FF6A00] text-white font-semibold text-xs tracking-widest px-4 py-2.5 uppercase hover:bg-[#e05a00] transition-colors">
               Консультация
@@ -359,7 +364,7 @@ export default function Index() {
               <Icon name="Phone" size={14} className="text-[#FF6A00]" />
               +7 (900) 123-45-67
             </a>
-            <button onClick={() => scrollTo("#consult")}
+            <button onClick={() => openModal("Бесплатная консультация")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-[#FF6A00] text-white font-semibold text-sm tracking-widest px-5 py-3 uppercase">
               Консультация бесплатно
@@ -460,7 +465,7 @@ export default function Index() {
                         <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xl font-bold text-[#FF6A00]">от {t.price} ₽</span>
                       </td>
                       <td className="hidden md:table-cell px-6 py-4 text-right">
-                        <button onClick={() => document.querySelector("#consult")?.scrollIntoView({ behavior: "smooth" })}
+                        <button onClick={() => openModal("Узнать точную стоимость")}
                           style={{ fontFamily: "'Oswald',sans-serif" }}
                           className="border border-[#FF6A00] text-[#FF6A00] text-xs tracking-widest px-4 py-2 uppercase hover:bg-[#FF6A00] hover:text-white transition-colors font-semibold">
                           Узнать точно
@@ -604,7 +609,7 @@ export default function Index() {
           <RevealBlock>
             <p className="text-center text-gray-400 text-sm mt-8 mb-5">Более 1500 выполненных объектов</p>
             <div className="text-center">
-              <button onClick={() => document.querySelector("#consult")?.scrollIntoView({ behavior: "smooth" })}
+              <button onClick={() => openModal("Хочу такой же результат")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="border-2 border-[#FF6A00] text-[#FF6A00] font-semibold text-sm tracking-widest px-8 py-3 uppercase hover:bg-[#FF6A00] hover:text-white transition-colors">
                 Хочу такой же результат
@@ -646,7 +651,7 @@ export default function Index() {
             <p className="text-white/50 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
               Хорошая кровля стоит своих денег один раз и держится 20–30 лет. Мы объясним всё до начала работ и предложим вариант под ваш бюджет.
             </p>
-            <button onClick={() => document.querySelector("#consult")?.scrollIntoView({ behavior: "smooth" })}
+            <button onClick={() => openModal("Получить честную смету")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="mt-7 bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-8 py-4 uppercase hover:bg-[#e05a00] transition-colors">
               Получить честную смету
