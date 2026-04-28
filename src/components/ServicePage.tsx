@@ -235,7 +235,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <div className="animate-fade-in-up hidden sm:flex flex-wrap gap-3" style={{ animationDelay: "0.4s" }}>
               {[
                 { icon: "Zap", text: "За 5 дней" },
-                { icon: "ShieldCheck", text: "Гарантия 5 лет" },
+                { icon: "ShieldCheck", text: "Гарантия 3 года" },
                 { icon: "Clock", text: "Замер за 3 часа" },
                 { icon: "DollarSign", text: "Цена фиксируется" },
               ].map(b => (

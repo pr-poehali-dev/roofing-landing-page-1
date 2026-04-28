@@ -480,7 +480,7 @@ export default function Index() {
                 </h1>
                 <p className="animate-fade-in-up text-white/70 text-lg leading-relaxed mb-6 max-w-md"
                   style={{ animationDelay: "0.2s" }}>
-                  Монтаж, ремонт и утепление кровли. Замер через 3 часа — бесплатно. Гарантия 5 лет.
+                  Монтаж, ремонт и утепление кровли. Замер через 3 часа — бесплатно. Гарантия 3 года.
                 </p>
                 <div className="animate-fade-in-up flex flex-wrap gap-3 mb-6" style={{ animationDelay: "0.25s" }}>
                   <button
@@ -502,7 +502,7 @@ export default function Index() {
                 <div className="animate-fade-in-up flex flex-wrap gap-3 mb-10" style={{ animationDelay: "0.3s" }}>
                   {[
                     { icon: "Zap", text: "Крыша за 5 дней" },
-                    { icon: "ShieldCheck", text: "Гарантия 5 лет" },
+                    { icon: "ShieldCheck", text: "Гарантия 3 года" },
                     { icon: "Clock", text: "Замер за 3 часа" },
                     { icon: "Star", text: "1500+ объектов" },
                   ].map(b => (
@@ -517,7 +517,7 @@ export default function Index() {
                   {[
                     { val: "1500+", label: "объектов" },
                     { val: "10 лет", label: "опыт" },
-                    { val: "5 лет", label: "гарантия" },
+                    { val: "3 года", label: "гарантия" },
                   ].map(s => (
                     <div key={s.label}>
                       <div className="font-bold text-[#FF6A00] text-xl md:text-3xl" style={{ fontFamily: "'Oswald',sans-serif" }}>{s.val}</div>
