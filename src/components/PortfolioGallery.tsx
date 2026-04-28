@@ -1,43 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
-
-const PORTFOLIO_URL = "https://functions.poehali.dev/e7509037-fd48-4c69-96ad-6fd44326e131";
-
-interface Photo {
-  src: string;
-  caption: string;
-}
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  cover: string;
-  photos: Photo[];
-}
+import { PORTFOLIO_PROJECTS, PortfolioProject as Project } from "@/data/portfolio";
 
 interface Props {
   onModal: (title: string) => void;
 }
 
 export default function PortfolioGallery({ onModal }: Props) {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const projects = PORTFOLIO_PROJECTS;
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
-
-  useEffect(() => {
-    fetch(PORTFOLIO_URL)
-      .then(r => r.json())
-      .then(data => {
-        if (data.ok && data.projects.length > 0) {
-          setProjects(data.projects);
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
 
   const openProject = (p: Project) => {
     setActiveProject(p);
@@ -48,14 +20,6 @@ export default function PortfolioGallery({ onModal }: Props) {
 
   const prev = () => setActivePhotoIdx(i => (i - 1 + activeProject!.photos.length) % activeProject!.photos.length);
   const next = () => setActivePhotoIdx(i => (i + 1) % activeProject!.photos.length);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-16">
-        <div className="w-8 h-8 border-2 border-[#FF6A00] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   if (projects.length === 0) {
     return (
