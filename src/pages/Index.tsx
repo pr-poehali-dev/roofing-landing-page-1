@@ -5,6 +5,7 @@ import Icon from "@/components/ui/icon";
 import ContactModal from "@/components/ContactModal";
 import PromoBanner from "@/components/PromoBanner";
 import QuizModal from "@/components/QuizModal";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
 const IMG_HOUSE = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg";
@@ -113,6 +114,7 @@ function SectionHead({ label, title, sub }: { label: string; title: string; sub?
 
 function HeroForm() {
   const [form, setForm] = useState({ name: "", phone: "" });
+  const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
 
   if (sent) return (
@@ -126,7 +128,7 @@ function HeroForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); setSent(true); }}
+    <form onSubmit={e => { e.preventDefault(); if (consent) setSent(true); }}
       className="bg-white border border-gray-200 shadow-xl p-6 md:p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -143,12 +145,16 @@ function HeroForm() {
           onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} required
           className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors bg-gray-50" />
       </div>
-      <button type="submit"
-        className="orange-pulse w-full bg-[#FF6A00] text-white font-bold text-sm tracking-widest py-4 uppercase hover:bg-[#e05a00] transition-colors"
+      <div className="mb-4">
+        <ConsentCheckbox checked={consent} onChange={setConsent} />
+      </div>
+      <button type="submit" disabled={!consent}
+        className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
+          consent ? "orange-pulse bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+        }`}
         style={{ fontFamily: "'Oswald',sans-serif" }}>
         Вызвать замерщика
       </button>
-      <p className="text-gray-400 text-[11px] mt-2 text-center">Замер бесплатно · Без обязательств</p>
     </form>
   );
 }
@@ -257,6 +263,7 @@ function Calculator() {
 
 function ConsultForm() {
   const [form, setForm] = useState({ name: "", phone: "", question: "" });
+  const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
 
   if (sent) return (
@@ -270,7 +277,7 @@ function ConsultForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); setSent(true); }} className="max-w-2xl mx-auto">
+    <form onSubmit={e => { e.preventDefault(); if (consent) setSent(true); }} className="max-w-2xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
           <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[10px] tracking-widest text-gray-500 uppercase block mb-1.5">Ваше имя</label>
@@ -291,8 +298,13 @@ function ConsultForm() {
           onChange={e => setForm(p => ({ ...p, question: e.target.value }))}
           className="w-full border border-gray-300 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors resize-none" />
       </div>
-      <button type="submit"
-        className="w-full bg-[#FF6A00] text-white font-bold text-sm tracking-widest py-4 uppercase hover:bg-[#e05a00] transition-colors"
+      <div className="mb-5">
+        <ConsentCheckbox checked={consent} onChange={setConsent} />
+      </div>
+      <button type="submit" disabled={!consent}
+        className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
+          consent ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+        }`}
         style={{ fontFamily: "'Oswald',sans-serif" }}>
         Перезвоните мне через 15 минут
       </button>
@@ -785,7 +797,12 @@ export default function Index() {
           <div style={{ fontFamily: "'Oswald',sans-serif" }} className="text-lg font-bold tracking-widest uppercase text-white">
             КРОВ<span className="text-[#FF6A00]">ЕЛЬ</span>
           </div>
-          <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
+            <Link to="/privacy" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
+              Политика конфиденциальности
+            </Link>
+          </div>
           <a href="tel:+79001234567"
             style={{ fontFamily: "'Oswald',sans-serif" }}
             className="flex items-center gap-2 text-sm text-[#FF6A00] tracking-wider hover:text-[#e05a00] transition-colors">

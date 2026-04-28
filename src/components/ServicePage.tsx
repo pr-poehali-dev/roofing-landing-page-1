@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import ContactModal from "@/components/ContactModal";
 import PromoBanner from "@/components/PromoBanner";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 
 export interface ServicePageProps {
   title: string;
@@ -69,6 +70,7 @@ const PROCESS_STEPS = [
 
 function QuickForm({ cta }: { cta: string }) {
   const [form, setForm] = useState({ name: "", phone: "" });
+  const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
 
   if (sent) return (
@@ -82,7 +84,7 @@ function QuickForm({ cta }: { cta: string }) {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); setSent(true); }}
+    <form onSubmit={e => { e.preventDefault(); if (consent) setSent(true); }}
       className="bg-white border border-gray-200 shadow-md p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -97,12 +99,16 @@ function QuickForm({ cta }: { cta: string }) {
           onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} required
           className="w-full border border-gray-300 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors" />
       </div>
-      <button type="submit"
+      <div className="mb-4">
+        <ConsentCheckbox checked={consent} onChange={setConsent} />
+      </div>
+      <button type="submit" disabled={!consent}
         style={{ fontFamily: "'Oswald',sans-serif" }}
-        className="w-full bg-[#FF6A00] text-white font-bold text-sm tracking-widest py-4 uppercase hover:bg-[#e05a00] transition-colors">
+        className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
+          consent ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
+        }`}>
         Перезвоните мне через 5 минут
       </button>
-      <p className="text-gray-400 text-[11px] mt-2 text-center">Замер бесплатно · Без обязательств</p>
     </form>
   );
 }
@@ -467,7 +473,12 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             className="text-base font-bold tracking-widest uppercase text-white">
             КРОВ<span className="text-[#FF6A00]">ЕЛЬ</span>
           </Link>
-          <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
+            <Link to="/privacy" className="text-gray-600 text-xs hover:text-[#FF6A00] transition-colors underline underline-offset-2">
+              Политика конфиденциальности
+            </Link>
+          </div>
           <a href="tel:+79001234567"
             style={{ fontFamily: "'Oswald',sans-serif" }}
             className="flex items-center gap-2 text-sm text-[#FF6A00] tracking-wider hover:text-[#e05a00] transition-colors">

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 
 interface QuizModalProps {
   open: boolean;
@@ -68,22 +69,24 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
   const [workType, setWorkType] = useState<string | null>(null);
   const [material, setMaterial] = useState<string | null>(null);
   const [phone, setPhone] = useState("");
+  const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
 
   const handleClose = () => {
     onClose();
-    // reset after animation
     setTimeout(() => {
       setStep(1);
       setWorkType(null);
       setMaterial(null);
       setPhone("");
+      setConsent(false);
       setSent(false);
     }, 300);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consent) return;
     setSent(true);
   };
 
@@ -244,12 +247,19 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
                   className="w-full border-2 border-gray-300 bg-gray-50 px-4 py-3.5 text-base focus:outline-none focus:border-[#FF6A00] transition-colors" />
               </div>
 
-              <button type="submit"
+              <div className="mb-4">
+                <ConsentCheckbox checked={consent} onChange={setConsent} />
+              </div>
+
+              <button type="submit" disabled={!consent}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
-                className="w-full bg-[#FF6A00] text-white font-bold text-sm tracking-widest py-4 uppercase hover:bg-[#e05a00] transition-colors">
+                className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
+                  consent
+                    ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                }`}>
                 Перезвоните мне бесплатно
               </button>
-              <p className="text-gray-400 text-[11px] mt-2 text-center">Без обязательств · Консультация бесплатна</p>
 
               <button type="button" onClick={() => setStep(2)}
                 className="mt-3 flex items-center gap-1.5 text-gray-400 hover:text-gray-700 text-sm transition-colors">

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/ui/icon";
+import ConsentCheckbox from "@/components/ConsentCheckbox";
 
 interface ContactModalProps {
   open: boolean;
@@ -9,10 +10,10 @@ interface ContactModalProps {
 
 export default function ContactModal({ open, onClose, title = "Получить консультацию" }: ContactModalProps) {
   const [form, setForm] = useState({ name: "", phone: "", question: "" });
+  const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // close on ESC
   useEffect(() => {
     if (!open) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -20,21 +21,26 @@ export default function ContactModal({ open, onClose, title = "Получить 
     return () => window.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
-  // lock scroll
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  // reset on close
   useEffect(() => {
-    if (!open) { setTimeout(() => { setForm({ name: "", phone: "", question: "" }); setSent(false); }, 300); }
+    if (!open) {
+      setTimeout(() => {
+        setForm({ name: "", phone: "", question: "" });
+        setConsent(false);
+        setSent(false);
+      }, 300);
+    }
   }, [open]);
 
   if (!open) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consent) return;
     setSent(true);
   };
 
@@ -103,18 +109,24 @@ export default function ContactModal({ open, onClose, title = "Получить 
                 </div>
                 <div>
                   <label style={{ fontFamily: "'Oswald',sans-serif" }}
-                    className="text-[10px] tracking-widest text-gray-400 uppercase block mb-1.5">Вопрос или задача (необязательно)</label>
+                    className="text-[10px] tracking-widest text-gray-400 uppercase block mb-1.5">Вопрос (необязательно)</label>
                   <textarea placeholder="Например: нужна смета на металлочерепицу 120 м²"
-                    rows={3} value={form.question} onChange={e => setForm(p => ({ ...p, question: e.target.value }))}
+                    rows={2} value={form.question} onChange={e => setForm(p => ({ ...p, question: e.target.value }))}
                     className="w-full border border-gray-300 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors resize-none" />
                 </div>
               </div>
-              <button type="submit"
+              <div className="mb-4">
+                <ConsentCheckbox checked={consent} onChange={setConsent} />
+              </div>
+              <button type="submit" disabled={!consent}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
-                className="w-full bg-[#FF6A00] text-white font-bold text-sm tracking-widest py-4 uppercase hover:bg-[#e05a00] transition-colors">
+                className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
+                  consent
+                    ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                }`}>
                 Перезвоните мне через 15 минут
               </button>
-              <p className="text-gray-400 text-[11px] mt-3 text-center">Консультация бесплатна · Без обязательств</p>
             </form>
           )}
         </div>
