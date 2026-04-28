@@ -7,6 +7,7 @@ import PromoBanner from "@/components/PromoBanner";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
 import Logo from "@/components/Logo";
+import { sendLead } from "@/utils/sendLead";
 import {
   trackServiceFormSubmit, trackServicePageView,
   trackContactModalOpen, trackPhoneClick,
@@ -93,7 +94,7 @@ function QuickForm({ cta }: { cta: string }) {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackServiceFormSubmit(cta); setSent(true); } }}
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackServiceFormSubmit(cta); sendLead({ name: form.name, phone: form.phone, source: `Страница услуги: ${cta}` }); setSent(true); } }}
       className="bg-white border border-gray-200 shadow-md p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />

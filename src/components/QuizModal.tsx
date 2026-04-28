@@ -4,6 +4,7 @@ import Icon from "@/components/ui/icon";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
 import { trackQuizModalClose, trackQuizStep1, trackQuizStep2, trackQuizSubmit } from "@/utils/analytics";
+import { sendLead } from "@/utils/sendLead";
 
 interface QuizModalProps {
   open: boolean;
@@ -95,6 +96,8 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
     e.preventDefault();
     if (!allConsented) return;
     trackQuizSubmit(workType, material);
+    const workLabel = WORK_TYPES.find(w => w.id === workType)?.label ?? workType ?? "";
+    sendLead({ phone, source: "Квиз", work_type: workLabel, material: material ?? "" });
     setSent(true);
   };
 

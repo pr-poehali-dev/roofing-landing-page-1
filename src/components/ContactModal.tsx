@@ -3,6 +3,7 @@ import Icon from "@/components/ui/icon";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
 import { trackContactModalSubmit, trackContactModalClose } from "@/utils/analytics";
+import { sendLead } from "@/utils/sendLead";
 
 interface ContactModalProps {
   open: boolean;
@@ -48,6 +49,7 @@ export default function ContactModal({ open, onClose, title = "Получить 
     e.preventDefault();
     if (!allConsented) return;
     trackContactModalSubmit(title);
+    sendLead({ name: form.name, phone: form.phone, question: form.question, source: title });
     setSent(true);
   };
 

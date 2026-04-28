@@ -1,0 +1,31 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Отправка заявки с телефоном",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Иван Иванов",
+        "phone": "+7 (900) 123-45-67",
+        "source": "Тест",
+        "question": "Нужен ремонт кровли"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Ошибка без телефона",
+      "method": "POST",
+      "path": "/",
+      "body": {"name": "Тест"},
+      "expectedStatus": 400
+    }
+  ]
+}

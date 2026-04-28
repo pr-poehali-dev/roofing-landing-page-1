@@ -8,6 +8,7 @@ import QuizModal from "@/components/QuizModal";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
 import Logo from "@/components/Logo";
+import { sendLead } from "@/utils/sendLead";
 import {
   trackHeroFormSubmit, trackConsultFormSubmit,
   trackContactModalOpen, trackQuizModalOpen,
@@ -139,7 +140,7 @@ function HeroForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackHeroFormSubmit(); setSent(true); } }}
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackHeroFormSubmit(); sendLead({ name: form.name, phone: form.phone, source: "Форма в шапке" }); setSent(true); } }}
       className="bg-white border border-gray-200 shadow-xl p-6 md:p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -293,7 +294,7 @@ function ConsultForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackConsultFormSubmit(); setSent(true); } }} className="max-w-2xl mx-auto">
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackConsultFormSubmit(); sendLead({ name: form.name, phone: form.phone, question: form.question, source: "Форма консультации" }); setSent(true); } }} className="max-w-2xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
           <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[10px] tracking-widest text-gray-500 uppercase block mb-1.5">Ваше имя</label>
