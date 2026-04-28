@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
+import { formatPhone } from "@/utils/phoneFormat";
 
 interface QuizModalProps {
   open: boolean;
@@ -246,7 +247,7 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
                   Номер телефона
                 </label>
                 <input type="tel" placeholder="+7 (___) ___-__-__"
-                  value={phone} onChange={e => setPhone(e.target.value)} required
+                  value={phone} onChange={e => setPhone(formatPhone(e.target.value))} required
                   autoFocus
                   className="w-full border-2 border-gray-300 bg-gray-50 px-4 py-3.5 text-base focus:outline-none focus:border-[#FF6A00] transition-colors" />
               </div>

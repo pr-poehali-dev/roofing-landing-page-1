@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/ui/icon";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
+import { formatPhone } from "@/utils/phoneFormat";
 
 interface ContactModalProps {
   open: boolean;
@@ -108,7 +109,7 @@ export default function ContactModal({ open, onClose, title = "Получить 
                   <label style={{ fontFamily: "'Oswald',sans-serif" }}
                     className="text-[10px] tracking-widest text-gray-400 uppercase block mb-1.5">Телефон</label>
                   <input type="tel" placeholder="+7 (___) ___-__-__"
-                    value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} required
+                    value={form.phone} onChange={e => setForm(p => ({ ...p, phone: formatPhone(e.target.value) }))} required
                     className="w-full border border-gray-300 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors" />
                 </div>
                 <div>

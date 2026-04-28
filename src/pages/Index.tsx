@@ -6,6 +6,7 @@ import ContactModal from "@/components/ContactModal";
 import PromoBanner from "@/components/PromoBanner";
 import QuizModal from "@/components/QuizModal";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
+import { formatPhone } from "@/utils/phoneFormat";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
 const IMG_HOUSE = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg";
@@ -144,7 +145,7 @@ function HeroForm() {
           onChange={e => setForm(p => ({ ...p, name: e.target.value }))} required
           className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors bg-gray-50" />
         <input type="tel" placeholder="+7 (___) ___-__-__" value={form.phone}
-          onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} required
+          onChange={e => setForm(p => ({ ...p, phone: formatPhone(e.target.value) }))} required
           className="w-full border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors bg-gray-50" />
       </div>
       <div className="mb-4">
@@ -295,7 +296,7 @@ function ConsultForm() {
         <div>
           <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[10px] tracking-widest text-gray-500 uppercase block mb-1.5">Телефон</label>
           <input type="tel" placeholder="+7 (___) ___-__-__" value={form.phone}
-            onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} required
+            onChange={e => setForm(p => ({ ...p, phone: formatPhone(e.target.value) }))} required
             className="w-full border border-gray-300 bg-white px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors" />
         </div>
       </div>

@@ -5,6 +5,7 @@ import Icon from "@/components/ui/icon";
 import ContactModal from "@/components/ContactModal";
 import PromoBanner from "@/components/PromoBanner";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
+import { formatPhone } from "@/utils/phoneFormat";
 
 export interface ServicePageProps {
   title: string;
@@ -98,7 +99,7 @@ function QuickForm({ cta }: { cta: string }) {
           onChange={e => setForm(p => ({ ...p, name: e.target.value }))} required
           className="w-full border border-gray-300 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors" />
         <input type="tel" placeholder="+7 (___) ___-__-__" value={form.phone}
-          onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} required
+          onChange={e => setForm(p => ({ ...p, phone: formatPhone(e.target.value) }))} required
           className="w-full border border-gray-300 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:border-[#FF6A00] transition-colors" />
       </div>
       <div className="mb-4">
