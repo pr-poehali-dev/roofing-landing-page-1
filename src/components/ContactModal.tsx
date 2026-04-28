@@ -50,7 +50,7 @@ export default function ContactModal({ open, onClose, title = "Получить 
         style={{ animationDuration: "0.25s" }}
       >
         {/* header */}
-        <div className="flex items-center justify-between px-7 pt-7 pb-5 border-b border-gray-100">
+        <div className="flex items-center justify-between px-4 md:px-7 pt-5 md:pt-7 pb-4 border-b border-gray-100">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -69,7 +69,7 @@ export default function ContactModal({ open, onClose, title = "Получить 
         </div>
 
         {/* body */}
-        <div className="px-7 py-6">
+        <div className="px-4 md:px-7 py-4 md:py-6">
           {sent ? (
             <div className="text-center py-6">
               <div className="w-16 h-16 bg-[#FF6A00] flex items-center justify-center mx-auto mb-4">

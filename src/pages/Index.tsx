@@ -170,8 +170,8 @@ function Calculator() {
         <h2 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-4xl md:text-5xl font-bold uppercase text-white mb-2">Калькулятор сметы</h2>
         <p className="text-white/80 text-sm mb-10">Предварительный расчёт. Точную цену узнайте после бесплатного замера.</p>
 
-        <div className="bg-white shadow-2xl p-7 md:p-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="bg-white shadow-2xl p-4 md:p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
             {/* Left: controls */}
             <div>
               {/* Area slider */}
@@ -437,15 +437,15 @@ export default function Index() {
                   ))}
                 </div>
                 {/* Stats */}
-                <div className="animate-fade-in-up grid grid-cols-3 gap-6 border-t border-white/15 pt-8" style={{ animationDelay: "0.4s" }}>
+                <div className="animate-fade-in-up grid grid-cols-3 gap-3 border-t border-white/15 pt-6" style={{ animationDelay: "0.4s" }}>
                   {[
                     { val: "1500+", label: "объектов" },
                     { val: "10 лет", label: "опыт" },
                     { val: "5 лет", label: "гарантия" },
                   ].map(s => (
                     <div key={s.label}>
-                      <div className="font-bold text-[#FF6A00] text-3xl" style={{ fontFamily: "'Oswald',sans-serif" }}>{s.val}</div>
-                      <div className="text-white/50 text-xs uppercase tracking-wider mt-0.5" style={{ fontFamily: "'Oswald',sans-serif" }}>{s.label}</div>
+                      <div className="font-bold text-[#FF6A00] text-xl md:text-3xl" style={{ fontFamily: "'Oswald',sans-serif" }}>{s.val}</div>
+                      <div className="text-white/50 text-[10px] uppercase tracking-wide mt-0.5" style={{ fontFamily: "'Oswald',sans-serif" }}>{s.label}</div>
                     </div>
                   ))}
                 </div>
@@ -467,13 +467,27 @@ export default function Index() {
         <div className="max-w-7xl mx-auto px-5">
           <SectionHead label="Стоимость" title="Цены на работы" sub="Стоимость работ без материалов. Точная цена — после бесплатного замера." />
           <RevealBlock>
-            <div className="overflow-hidden border border-gray-200">
+            {/* Mobile: cards; Desktop: table */}
+            <div className="md:hidden grid grid-cols-1 gap-2">
+              {PRICE_TYPES.map(t => (
+                <div key={t.label} className="flex items-center justify-between bg-white border border-gray-200 px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-orange-50 flex items-center justify-center flex-shrink-0">
+                      <Icon name={t.icon as any} size={15} className="text-[#FF6A00]" />
+                    </div>
+                    <span style={{ fontFamily: "'Oswald',sans-serif" }} className="font-semibold text-gray-900 uppercase tracking-wide text-sm">{t.label}</span>
+                  </div>
+                  <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-bold text-[#FF6A00] flex-shrink-0 ml-2">от {t.price} ₽</span>
+                </div>
+              ))}
+            </div>
+            <div className="hidden md:block overflow-hidden border border-gray-200">
               <table className="w-full">
                 <thead>
                   <tr className="bg-gray-900 text-white">
                     <th style={{ fontFamily: "'Oswald',sans-serif" }} className="text-left px-6 py-4 text-sm tracking-widest uppercase font-semibold">Тип покрытия</th>
                     <th style={{ fontFamily: "'Oswald',sans-serif" }} className="text-right px-6 py-4 text-sm tracking-widest uppercase font-semibold">Цена за м²</th>
-                    <th className="hidden md:table-cell px-6 py-4"></th>
+                    <th className="px-6 py-4"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -490,7 +504,7 @@ export default function Index() {
                       <td className="px-6 py-4 text-right">
                         <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xl font-bold text-[#FF6A00]">от {t.price} ₽</span>
                       </td>
-                      <td className="hidden md:table-cell px-6 py-4 text-right">
+                      <td className="px-6 py-4 text-right">
                         <button onClick={() => openModal("Узнать точную стоимость")}
                           style={{ fontFamily: "'Oswald',sans-serif" }}
                           className="border border-[#FF6A00] text-[#FF6A00] text-xs tracking-widest px-4 py-2 uppercase hover:bg-[#FF6A00] hover:text-white transition-colors font-semibold">
@@ -501,6 +515,13 @@ export default function Index() {
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="mt-3 md:hidden text-center">
+              <button onClick={() => openModal("Узнать точную стоимость")}
+                style={{ fontFamily: "'Oswald',sans-serif" }}
+                className="w-full border border-[#FF6A00] text-[#FF6A00] text-xs tracking-widest px-4 py-3 uppercase font-semibold">
+                Узнать точную стоимость
+              </button>
             </div>
             <p className="text-gray-400 text-xs mt-4 text-center">* Цены указаны на работы без учёта материалов. Окончательная стоимость — после замера.</p>
           </RevealBlock>
@@ -576,7 +597,7 @@ export default function Index() {
       {/* ── ABOUT ── */}
       <section id="about" className="py-24 bg-[#f4f4f4]">
         <div className="max-w-7xl mx-auto px-5">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
             <RevealBlock>
               <div className="flex items-center gap-3 mb-3"><ALine /><OLabel>О компании</OLabel></div>
               <h2 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-4xl md:text-5xl font-bold uppercase text-gray-900 mb-6">
@@ -620,15 +641,15 @@ export default function Index() {
           <RevealBlock>
             <div className="relative group overflow-hidden cursor-pointer border border-gray-200">
               <img src={IMG_BEFORE_AFTER} alt="До и после ремонта кровли"
-                className="w-full h-[460px] object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+                className="w-full h-48 sm:h-72 md:h-[380px] object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-transparent to-transparent" />
-              <div className="absolute bottom-8 left-8">
-                <div className="inline-block bg-[#FF6A00] text-white font-bold text-xs tracking-widest px-4 py-1.5 mb-3"
+              <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8">
+                <div className="inline-block bg-[#FF6A00] text-white font-bold text-xs tracking-widest px-3 py-1 mb-2"
                   style={{ fontFamily: "'Oswald',sans-serif" }}>
                   ДО / ПОСЛЕ
                 </div>
-                <h3 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-2xl font-bold uppercase text-white">Замена старой кровли</h3>
-                <p className="text-white/70 text-sm mt-1">Металлочерепица · Подмосковье · 3 дня</p>
+                <h3 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base md:text-2xl font-bold uppercase text-white">Замена старой кровли</h3>
+                <p className="text-white/70 text-xs md:text-sm mt-1">Металлочерепица · Подмосковье · 3 дня</p>
               </div>
             </div>
           </RevealBlock>
@@ -670,8 +691,8 @@ export default function Index() {
       <section className="py-14 bg-gray-900">
         <div className="max-w-3xl mx-auto px-5 text-center">
           <RevealBlock>
-            <p style={{ fontFamily: "'Oswald',sans-serif" }} className="text-2xl md:text-3xl font-bold uppercase text-white leading-snug">
-              «Дорого» — это когда крыша потекла повторно,<br />
+            <p style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xl md:text-3xl font-bold uppercase text-white leading-snug">
+              «Дорого» — это когда крыша потекла повторно,{" "}
               <span className="text-[#FF6A00]">а подрядчик не отвечает.</span>
             </p>
             <p className="text-white/50 text-sm mt-4 max-w-xl mx-auto leading-relaxed">

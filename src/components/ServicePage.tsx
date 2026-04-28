@@ -184,22 +184,22 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
         </div>
 
         {/* content */}
-        <div className="relative max-w-6xl mx-auto px-5 py-24 md:py-32 flex items-center min-h-[75vh]">
+        <div className="relative max-w-6xl mx-auto px-4 md:px-5 py-16 md:py-28 flex items-center" style={{ minHeight: "60vh" }}>
           <div className="max-w-2xl">
-            <div className="animate-fade-in-up flex items-center gap-3 mb-5">
+            <div className="animate-fade-in-up flex items-center gap-3 mb-4">
               <div className="h-px w-10 bg-[#FF6A00]" />
               <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[11px] tracking-[0.3em] text-[#FF6A00] uppercase font-semibold">
                 Кровельные работы
               </span>
             </div>
             <h1 style={{ fontFamily: "'Oswald',sans-serif", animationDelay: "0.1s" }}
-              className="animate-fade-in-up text-[clamp(2.2rem,5vw,4rem)] font-bold uppercase leading-tight text-white mb-4">
+              className="animate-fade-in-up text-[clamp(1.8rem,5vw,4rem)] font-bold uppercase leading-tight text-white mb-3">
               {title}
             </h1>
             <p style={{ fontFamily: "'Oswald',sans-serif", animationDelay: "0.2s" }}
-              className="animate-fade-in-up text-[#FF6A00] font-semibold text-lg mb-5">{subtitle}</p>
+              className="animate-fade-in-up text-[#FF6A00] font-semibold text-base mb-4">{subtitle}</p>
             <p style={{ animationDelay: "0.25s" }}
-              className="animate-fade-in-up text-white/75 leading-relaxed mb-8 max-w-lg">{description}</p>
+              className="animate-fade-in-up text-white/75 text-sm md:text-base leading-relaxed mb-6 max-w-lg hidden sm:block">{description}</p>
             <div className="animate-fade-in-up flex flex-wrap gap-3 mb-10" style={{ animationDelay: "0.3s" }}>
               <button onClick={() => openModal("Перезвоните мне")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
@@ -213,8 +213,8 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
                 Позвонить
               </a>
             </div>
-            {/* badges */}
-            <div className="animate-fade-in-up flex flex-wrap gap-3" style={{ animationDelay: "0.4s" }}>
+            {/* badges — скрыты на маленьких экранах */}
+            <div className="animate-fade-in-up hidden sm:flex flex-wrap gap-3" style={{ animationDelay: "0.4s" }}>
               {[
                 { icon: "Zap", text: "За 5 дней" },
                 { icon: "ShieldCheck", text: "Гарантия 5 лет" },
@@ -263,7 +263,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
 
           <RevealBlock>
             {/* Main photo */}
-            <div className="relative overflow-hidden mb-3 group cursor-pointer" style={{ height: 420 }}
+            <div className="relative overflow-hidden mb-3 group cursor-pointer h-48 sm:h-72 md:h-[400px]"
               onClick={() => setActivePhoto((activePhoto + 1) % allPhotos.length)}>
               <img
                 src={allPhotos[activePhoto].src}
@@ -281,7 +281,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
                     {allPhotos[activePhoto].caption}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 text-white/70 text-xs">
+                <div className="hidden sm:flex items-center gap-2 text-white/70 text-xs">
                   <Icon name="ChevronRight" size={16} />
                   <span>следующее фото</span>
                 </div>
@@ -289,10 +289,10 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             </div>
 
             {/* Thumbnails */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2">
               {allPhotos.map((p, i) => (
                 <button key={i} onClick={() => setActivePhoto(i)}
-                  className={`relative overflow-hidden h-24 border-2 transition-all ${i === activePhoto ? "border-[#FF6A00]" : "border-transparent hover:border-gray-300"}`}>
+                  className={`relative overflow-hidden h-16 sm:h-24 border-2 transition-all ${i === activePhoto ? "border-[#FF6A00]" : "border-transparent hover:border-gray-300"}`}>
                   <img src={p.src} alt={p.caption} className="w-full h-full object-cover" />
                   {i === activePhoto && (
                     <div className="absolute inset-0 bg-[#FF6A00]/20" />
@@ -356,8 +356,8 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <div className="space-y-6">
               {PROCESS_STEPS.map((s, i) => (
                 <RevealBlock key={s.num}>
-                  <div className="flex items-start gap-6">
-                    <div className="flex-shrink-0 w-12 h-12 bg-[#FF6A00] text-white flex items-center justify-center font-bold text-lg z-10 relative"
+                  <div className="flex items-start gap-3 md:gap-6">
+                    <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-[#FF6A00] text-white flex items-center justify-center font-bold text-base md:text-lg z-10 relative"
                       style={{ fontFamily: "'Oswald',sans-serif" }}>
                       {s.num}
                     </div>
@@ -439,12 +439,12 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
 
       {/* ── BOTTOM CTA ── */}
       <section className="py-14 bg-[#FF6A00]">
-        <div className="max-w-6xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="max-w-6xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <div>
-            <p style={{ fontFamily: "'Oswald',sans-serif" }} className="text-white text-2xl font-bold uppercase">Готовы начать?</p>
+            <p style={{ fontFamily: "'Oswald',sans-serif" }} className="text-white text-xl md:text-2xl font-bold uppercase">Готовы начать?</p>
             <p className="text-white/80 text-sm mt-1">Перезвоним через 5 минут — договоримся о замере</p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <a href="tel:+79001234567"
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="flex items-center gap-2 bg-white text-gray-900 font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-gray-100 transition-colors">

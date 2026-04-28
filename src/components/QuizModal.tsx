@@ -102,10 +102,10 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
       onClick={e => { if (e.target === e.currentTarget) handleClose(); }}
     >
       <div className="bg-white w-full max-w-lg shadow-2xl animate-fade-in-up relative flex flex-col"
-        style={{ animationDuration: "0.25s", maxHeight: "90vh" }}>
+        style={{ animationDuration: "0.25s", maxHeight: "95vh" }}>
 
         {/* Header */}
-        <div className="px-7 pt-6 pb-0 flex-shrink-0">
+        <div className="px-4 md:px-7 pt-5 pb-0 flex-shrink-0">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p style={{ fontFamily: "'Oswald',sans-serif" }}
@@ -139,21 +139,21 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
         </div>
 
         {/* Body — scrollable */}
-        <div className="px-7 pb-7 overflow-y-auto flex-1">
+        <div className="px-4 md:px-7 pb-5 md:pb-7 overflow-y-auto flex-1">
 
           {/* STEP 1 */}
           {step === 1 && !sent && (
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {WORK_TYPES.map(w => (
                 <button key={w.id}
                   onClick={() => { setWorkType(w.id); setMaterial(null); setStep(2); }}
-                  className={`flex items-center gap-3 p-4 border-2 text-left transition-all hover:border-[#FF6A00] hover:bg-orange-50 group ${
+                  className={`flex items-center gap-3 p-3 md:p-4 border-2 text-left transition-all hover:border-[#FF6A00] hover:bg-orange-50 group ${
                     workType === w.id ? "border-[#FF6A00] bg-orange-50" : "border-gray-200 bg-white"
                   }`}>
-                  <div className={`w-9 h-9 flex items-center justify-center flex-shrink-0 transition-colors ${
+                  <div className={`w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors ${
                     workType === w.id ? "bg-[#FF6A00]" : "bg-gray-100 group-hover:bg-[#FF6A00]"
                   }`}>
-                    <Icon name={w.icon as any} size={16}
+                    <Icon name={w.icon as any} size={15}
                       className={workType === w.id ? "text-white" : "text-gray-500 group-hover:text-white"} />
                   </div>
                   <span style={{ fontFamily: "'Oswald',sans-serif" }}
