@@ -439,11 +439,13 @@ export default function Index() {
                   <div className="w-11 h-11 bg-orange-50 flex items-center justify-center mb-5">
                     <Icon name={s.icon as any} size={20} className="text-[#FF6A00]" />
                   </div>
-                  <h3 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-semibold tracking-wide mb-2 uppercase text-gray-900">{s.title}</h3>
+                  <Link to={s.href}>
+                    <h3 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-semibold tracking-wide mb-2 uppercase text-gray-900 hover:text-[#FF6A00] transition-colors cursor-pointer">{s.title}</h3>
+                  </Link>
                   <p className="text-gray-500 text-sm leading-relaxed flex-1">{s.desc}</p>
                   <Link to={s.href}
                     style={{ fontFamily: "'Oswald',sans-serif" }}
-                    className="mt-5 text-[#FF6A00] text-xs tracking-widest uppercase flex items-center gap-1.5 hover:gap-3 transition-all font-semibold">
+                    className="mt-5 inline-flex items-center gap-1.5 bg-[#FF6A00] text-white text-xs tracking-widest uppercase px-4 py-2.5 hover:bg-[#e05a00] transition-colors font-semibold self-start">
                     Подробнее <Icon name="ArrowRight" size={12} />
                   </Link>
                 </div>
