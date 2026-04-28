@@ -77,13 +77,22 @@ const GUARANTEES = [
 ];
 
 const PRICE_TYPES = [
-  { label: "Гибкая черепица", price: 1000, icon: "Layers" },
-  { label: "Металлочерепица", price: 900, icon: "Home" },
-  { label: "Натуральная черепица", price: 1500, icon: "Building2" },
-  { label: "Композитная черепица", price: 1000, icon: "Grid3x3" },
-  { label: "Ондулин", price: 800, icon: "Waves" },
-  { label: "Профнастил", price: 700, icon: "AlignJustify" },
-  { label: "Рулонная кровля", price: 300, icon: "ScrollText" },
+  { label: "Демонтаж кровли", price: 500, unit: "м²", icon: "Trash2", calcUnit: "m2" },
+  { label: "Монтаж обрешётки", price: 450, unit: "м²", icon: "Grid3x3", calcUnit: "m2" },
+  { label: "Монтаж стропильных систем", price: 900, unit: "м²", icon: "Home", calcUnit: "m2" },
+  { label: "Укладка утеплителя", price: 500, unit: "м³", icon: "Layers", calcUnit: "m3" },
+  { label: "Монтаж кровли", price: 1800, unit: "м²", icon: "Building2", calcUnit: "m2" },
+  { label: "Мягкая кровля", price: 2500, unit: "м²", icon: "Waves", calcUnit: "m2" },
+  { label: "Кровля из профнастила", price: 1700, unit: "м²", icon: "AlignJustify", calcUnit: "m2" },
+  { label: "Кровля из металлочерепицы", price: 2000, unit: "м²", icon: "ScrollText", calcUnit: "m2" },
+];
+
+const EXTRA_SERVICES = [
+  { label: "Монтаж снегозадержателей", price: "2 000", unit: "пог. метр", icon: "MoveHorizontal" },
+  { label: "Монтаж мансардных окон", price: "от 15 000", unit: "шт", icon: "AppWindow" },
+  { label: "Монтаж водосточных систем", price: "от 2 000", unit: "пог. метр", icon: "Droplets" },
+  { label: "Монтаж дымников", price: "от 3 500", unit: "шт", icon: "Wind" },
+  { label: "Ремонт кровли", price: "от 1 000", unit: "м²", icon: "Wrench" },
 ];
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -181,7 +190,7 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
   const [typeIdx, setTypeIdx] = useState(1);
   const selected = PRICE_TYPES[typeIdx];
   const workCost = area * selected.price;
-  const materialCoeff = 1.4;
+  const materialCoeff = 1.55;
   const total = Math.round(workCost * materialCoeff);
 
   return (
@@ -224,7 +233,7 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                         ? "border-[#FF6A00] bg-orange-50 text-[#FF6A00] font-semibold"
                         : "border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-400"}`}>
                       <span style={{ fontFamily: "'Oswald',sans-serif" }} className="uppercase tracking-wide">{t.label}</span>
-                      <span className="font-bold">от {t.price} ₽/м²</span>
+                      <span className="font-bold">от {t.price} ₽/{t.unit}</span>
                     </button>
                   ))}
                 </div>
@@ -239,7 +248,7 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                   <p className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Oswald',sans-serif" }}>
                     {workCost.toLocaleString("ru-RU")} ₽
                   </p>
-                  <p className="text-gray-400 text-xs mt-1">{area} м² × {selected.price} ₽/м²</p>
+                  <p className="text-gray-400 text-xs mt-1">{area} {selected.unit} × {selected.price} ₽/{selected.unit}</p>
                 </div>
                 <div className="bg-[#FF6A00] p-6 mb-6">
                   <p className="text-white/80 text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "'Oswald',sans-serif" }}>Итого с материалами</p>
@@ -530,7 +539,7 @@ export default function Index() {
                     </div>
                     <span style={{ fontFamily: "'Oswald',sans-serif" }} className="font-semibold text-gray-900 uppercase tracking-wide text-sm">{t.label}</span>
                   </div>
-                  <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-bold text-[#FF6A00] flex-shrink-0 ml-2">от {t.price} ₽</span>
+                  <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-bold text-[#FF6A00] flex-shrink-0 ml-2">от {t.price} ₽/{t.unit}</span>
                 </div>
               ))}
             </div>
@@ -538,8 +547,9 @@ export default function Index() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-gray-900 text-white">
-                    <th style={{ fontFamily: "'Oswald',sans-serif" }} className="text-left px-6 py-4 text-sm tracking-widest uppercase font-semibold">Тип покрытия</th>
-                    <th style={{ fontFamily: "'Oswald',sans-serif" }} className="text-right px-6 py-4 text-sm tracking-widest uppercase font-semibold">Цена за м²</th>
+                    <th style={{ fontFamily: "'Oswald',sans-serif" }} className="text-left px-6 py-4 text-sm tracking-widest uppercase font-semibold">Вид работ</th>
+                    <th style={{ fontFamily: "'Oswald',sans-serif" }} className="text-right px-6 py-4 text-sm tracking-widest uppercase font-semibold">Ед. изм.</th>
+                    <th style={{ fontFamily: "'Oswald',sans-serif" }} className="text-right px-6 py-4 text-sm tracking-widest uppercase font-semibold">Цена за ед.</th>
                     <th className="px-6 py-4"></th>
                   </tr>
                 </thead>
@@ -553,6 +563,9 @@ export default function Index() {
                           </div>
                           <span style={{ fontFamily: "'Oswald',sans-serif" }} className="font-semibold text-gray-900 uppercase tracking-wide text-sm">{t.label}</span>
                         </div>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <span className="text-sm text-gray-500">{t.unit}</span>
                       </td>
                       <td className="px-6 py-4 text-right">
                         <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xl font-bold text-[#FF6A00]">от {t.price} ₽</span>
@@ -576,6 +589,56 @@ export default function Index() {
                 Узнать точную стоимость
               </button>
             </div>
+
+            {/* Extra services */}
+            <div className="mt-8">
+              <p style={{ fontFamily: "'Oswald',sans-serif" }} className="text-sm tracking-widest uppercase font-semibold text-gray-700 mb-3">Дополнительные элементы</p>
+              <div className="md:hidden grid grid-cols-1 gap-2">
+                {EXTRA_SERVICES.map(t => (
+                  <div key={t.label} className="flex items-center justify-between bg-white border border-gray-200 px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-orange-50 flex items-center justify-center flex-shrink-0">
+                        <Icon name={t.icon as any} size={15} className="text-[#FF6A00]" />
+                      </div>
+                      <span style={{ fontFamily: "'Oswald',sans-serif" }} className="font-semibold text-gray-900 uppercase tracking-wide text-sm">{t.label}</span>
+                    </div>
+                    <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base font-bold text-[#FF6A00] flex-shrink-0 ml-2">{t.price} ₽</span>
+                  </div>
+                ))}
+              </div>
+              <div className="hidden md:block overflow-hidden border border-gray-200">
+                <table className="w-full">
+                  <tbody>
+                    {EXTRA_SERVICES.map((t, i) => (
+                      <tr key={t.label} className={`border-b border-gray-100 hover:bg-orange-50 transition-colors ${i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}`}>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-orange-50 flex items-center justify-center flex-shrink-0">
+                              <Icon name={t.icon as any} size={15} className="text-[#FF6A00]" />
+                            </div>
+                            <span style={{ fontFamily: "'Oswald',sans-serif" }} className="font-semibold text-gray-900 uppercase tracking-wide text-sm">{t.label}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <span className="text-sm text-gray-500">{t.unit}</span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xl font-bold text-[#FF6A00]">{t.price} ₽</span>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button onClick={() => openModal("Узнать точную стоимость", "prices")}
+                            style={{ fontFamily: "'Oswald',sans-serif" }}
+                            className="border border-[#FF6A00] text-[#FF6A00] text-xs tracking-widest px-4 py-2 uppercase hover:bg-[#FF6A00] hover:text-white transition-colors font-semibold">
+                            Узнать точно
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
             <p className="text-gray-400 text-xs mt-4 text-center">* Цены указаны на работы без учёта материалов. Окончательная стоимость — после замера.</p>
           </RevealBlock>
         </div>
