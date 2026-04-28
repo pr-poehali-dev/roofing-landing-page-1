@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
+import ContactModal from "@/components/ContactModal";
 
 export interface ServicePageProps {
   title: string;
@@ -127,6 +128,9 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 export default function ServicePage({ title, subtitle, description, heroIcon, benefits, steps, faq, cta, photos }: ServicePageProps) {
   const [activePhoto, setActivePhoto] = useState(0);
+  const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
+  const openModal = (t: string) => setModal({ open: true, title: t });
+  const closeModal = () => setModal(p => ({ ...p, open: false }));
 
   const allPhotos = photos && photos.length > 0 ? photos : [
     { src: "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg", caption: "Работы на объекте" },
@@ -136,6 +140,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
 
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-gray-900 overflow-x-hidden" style={{ fontFamily: "'Roboto',sans-serif" }}>
+      <ContactModal open={modal.open} onClose={closeModal} title={modal.title} />
 
       {/* NAV */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
@@ -190,11 +195,11 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <p style={{ animationDelay: "0.25s" }}
               className="animate-fade-in-up text-white/75 leading-relaxed mb-8 max-w-lg">{description}</p>
             <div className="animate-fade-in-up flex flex-wrap gap-3 mb-10" style={{ animationDelay: "0.3s" }}>
-              <a href="#form"
+              <button onClick={() => openModal("Перезвоните мне")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors">
                 Перезвоните мне
-              </a>
+              </button>
               <a href="tel:+79001234567"
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="flex items-center gap-2 border-2 border-white/40 text-white font-semibold text-sm tracking-widest px-7 py-4 uppercase hover:border-[#FF6A00] hover:text-[#FF6A00] transition-colors">
@@ -305,7 +310,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
               <p className="text-gray-600 mb-6 leading-relaxed">
                 Расскажите задачу — мастер перезвонит в течение 5 минут, ответит на вопросы и договорится о бесплатном выезде.
               </p>
-              <div className="space-y-3">
+              <div className="space-y-3 mb-6">
                 {[
                   { icon: "Clock", text: "Перезваниваем через 5 минут" },
                   { icon: "MapPin", text: "Выезд на замер в течение 3 часов" },
@@ -319,6 +324,11 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
                   </div>
                 ))}
               </div>
+              <button onClick={() => openModal("Получить консультацию")}
+                style={{ fontFamily: "'Oswald',sans-serif" }}
+                className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors w-full lg:w-auto">
+                Получить консультацию бесплатно
+              </button>
             </RevealBlock>
             <RevealBlock>
               <QuickForm cta={cta} />
@@ -435,11 +445,11 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
               <Icon name="Phone" size={14} />
               Позвонить
             </a>
-            <a href="#form"
+            <button onClick={() => openModal("Перезвоните мне")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-gray-900 text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-black transition-colors">
               Перезвоните мне
-            </a>
+            </button>
           </div>
         </div>
       </section>
