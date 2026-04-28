@@ -262,10 +262,15 @@ export default function PortfolioGallery({ onModal }: Props) {
         </div>
       )}
 
+      {/* ── Mobile: затемнение фона ── */}
+      {openProject && isMobile && (
+        <div className="fixed inset-0 z-40 bg-black/50" onClick={handleCloseProject} />
+      )}
+
       {/* ── Mobile: Bottom Sheet на всю ширину, прижат к низу ── */}
       {openProject && isMobile && (
-        <div className="fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white shadow-[0_-4px_24px_rgba(0,0,0,0.18)]"
-          style={{ height: "80vh" }}
+        <div className="fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white rounded-t-2xl shadow-[0_-8px_32px_rgba(0,0,0,0.25)]"
+          style={{ height: "65vh" }}
           onClick={e => e.stopPropagation()}>
 
           {/* Drag handle */}
