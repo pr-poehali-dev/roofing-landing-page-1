@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Icon from "@/components/ui/icon";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
+import { trackContactModalSubmit, trackContactModalClose } from "@/utils/analytics";
 
 interface ContactModalProps {
   open: boolean;
@@ -46,13 +47,14 @@ export default function ContactModal({ open, onClose, title = "Получить 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!allConsented) return;
+    trackContactModalSubmit(title);
     setSent(true);
   };
 
   return (
     <div
       ref={overlayRef}
-      onClick={e => { if (e.target === overlayRef.current) onClose(); }}
+      onClick={e => { if (e.target === overlayRef.current) { trackContactModalClose(); onClose(); } }}
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(4px)" }}
     >
@@ -73,7 +75,7 @@ export default function ContactModal({ open, onClose, title = "Получить 
             <h2 style={{ fontFamily: "'Oswald',sans-serif" }}
               className="text-xl font-bold uppercase text-gray-900 leading-tight">{title}</h2>
           </div>
-          <button onClick={onClose}
+          <button onClick={() => { trackContactModalClose(); onClose(); }}
             className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors flex-shrink-0 ml-4">
             <Icon name="X" size={18} />
           </button>

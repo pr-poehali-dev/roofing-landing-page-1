@@ -8,6 +8,13 @@ import QuizModal from "@/components/QuizModal";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
 import Logo from "@/components/Logo";
+import {
+  trackHeroFormSubmit, trackConsultFormSubmit,
+  trackContactModalOpen, trackQuizModalOpen,
+  trackPhoneClick, trackCtaClick,
+  trackCalculatorMaterialSelect, trackCalculatorSubmit,
+  trackSectionVisible, trackPortfolioPhotoClick,
+} from "@/utils/analytics";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
 const IMG_HOUSE = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg";
@@ -132,7 +139,7 @@ function HeroForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (allConsented) setSent(true); }}
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackHeroFormSubmit(); setSent(true); } }}
       className="bg-white border border-gray-200 shadow-xl p-6 md:p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -211,7 +218,7 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                 <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-sm font-semibold uppercase tracking-wider text-gray-700 block mb-3">Тип покрытия</label>
                 <div className="grid grid-cols-1 gap-2">
                   {PRICE_TYPES.map((t, i) => (
-                    <button key={t.label} onClick={() => setTypeIdx(i)}
+                    <button key={t.label} onClick={() => { setTypeIdx(i); trackCalculatorMaterialSelect(t.label); }}
                       className={`flex items-center justify-between px-4 py-3 border text-sm transition-colors ${i === typeIdx
                         ? "border-[#FF6A00] bg-orange-50 text-[#FF6A00] font-semibold"
                         : "border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-400"}`}>
@@ -253,7 +260,7 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                   ))}
                 </div>
               </div>
-              <button onClick={() => onModal("Получить точную смету")}
+              <button onClick={() => { trackCalculatorSubmit(selected.label, area); onModal("Получить точную смету"); }}
                 className="block w-full bg-gray-900 text-white text-center font-bold text-sm tracking-widest py-4 uppercase hover:bg-black transition-colors"
                 style={{ fontFamily: "'Oswald',sans-serif" }}>
                 Получить точную смету
@@ -286,7 +293,7 @@ function ConsultForm() {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (allConsented) setSent(true); }} className="max-w-2xl mx-auto">
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackConsultFormSubmit(); setSent(true); } }} className="max-w-2xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
           <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[10px] tracking-widest text-gray-500 uppercase block mb-1.5">Ваше имя</label>
@@ -331,13 +338,36 @@ export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
   const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
-  const openModal = (title: string) => setModal({ open: true, title });
+  const openModal = (title: string, source = "unknown") => {
+    trackContactModalOpen(source);
+    setModal({ open: true, title });
+  };
   const closeModal = () => setModal(p => ({ ...p, open: false }));
 
   const scrollTo = (href: string) => {
     setMenuOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Скролл-трекинг секций
+  useEffect(() => {
+    const sections = ["#hero", "#services", "#calculator", "#prices", "#portfolio", "#reviews", "#about", "#contacts"];
+    const observers: IntersectionObserver[] = [];
+    const seen = new Set<string>();
+    sections.forEach(id => {
+      const el = document.querySelector(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && !seen.has(id)) {
+          seen.add(id);
+          trackSectionVisible(id.replace("#", ""));
+        }
+      }, { threshold: 0.3 });
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-gray-900 overflow-x-hidden" style={{ fontFamily: "'Roboto',sans-serif" }}>
@@ -360,13 +390,13 @@ export default function Index() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-3">
-            <a href="tel:+79001234567"
+            <a href="tel:+79001234567" onClick={() => trackPhoneClick("nav")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="flex items-center gap-2 text-sm tracking-wider text-gray-700 hover:text-[#FF6A00] transition-colors font-semibold">
               <Icon name="Phone" size={13} className="text-[#FF6A00]" />
               +7 (900) 123-45-67
             </a>
-            <button onClick={() => openModal("Бесплатная консультация")}
+            <button onClick={() => openModal("Бесплатная консультация", "nav")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-[#FF6A00] text-white font-semibold text-xs tracking-widest px-4 py-2.5 uppercase hover:bg-[#e05a00] transition-colors">
               Консультация
@@ -385,12 +415,12 @@ export default function Index() {
                 {l.label}
               </button>
             ))}
-            <a href="tel:+79001234567"
+            <a href="tel:+79001234567" onClick={() => trackPhoneClick("mobile_menu")}
               className="mt-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
               <Icon name="Phone" size={14} className="text-[#FF6A00]" />
               +7 (900) 123-45-67
             </a>
-            <button onClick={() => openModal("Бесплатная консультация")}
+            <button onClick={() => openModal("Бесплатная консультация", "mobile_menu")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-[#FF6A00] text-white font-semibold text-sm tracking-widest px-5 py-3 uppercase">
               Консультация бесплатно
@@ -430,7 +460,7 @@ export default function Index() {
                 </p>
                 <div className="animate-fade-in-up flex flex-wrap gap-3 mb-6" style={{ animationDelay: "0.25s" }}>
                   <button
-                    onClick={() => setQuizOpen(true)}
+                    onClick={() => { trackQuizModalOpen(); setQuizOpen(true); }}
                     style={{ fontFamily: "'Oswald',sans-serif" }}
                     className="flex items-center gap-2.5 bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors"
                   >
@@ -438,7 +468,7 @@ export default function Index() {
                     Рассчитать стоимость
                   </button>
                   <button
-                    onClick={() => openModal("Вызвать замерщика")}
+                    onClick={() => { trackCtaClick("Вызвать замерщика", "hero"); openModal("Вызвать замерщика", "hero"); }}
                     style={{ fontFamily: "'Oswald',sans-serif" }}
                     className="flex items-center gap-2.5 border-2 border-white/40 text-white font-semibold text-sm tracking-widest px-7 py-4 uppercase hover:border-[#FF6A00] hover:text-[#FF6A00] transition-colors"
                   >
@@ -527,7 +557,7 @@ export default function Index() {
                         <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xl font-bold text-[#FF6A00]">от {t.price} ₽</span>
                       </td>
                       <td className="px-6 py-4 text-right">
-                        <button onClick={() => openModal("Узнать точную стоимость")}
+                        <button onClick={() => openModal("Узнать точную стоимость", "prices")}
                           style={{ fontFamily: "'Oswald',sans-serif" }}
                           className="border border-[#FF6A00] text-[#FF6A00] text-xs tracking-widest px-4 py-2 uppercase hover:bg-[#FF6A00] hover:text-white transition-colors font-semibold">
                           Узнать точно
@@ -539,7 +569,7 @@ export default function Index() {
               </table>
             </div>
             <div className="mt-3 md:hidden text-center">
-              <button onClick={() => openModal("Узнать точную стоимость")}
+              <button onClick={() => openModal("Узнать точную стоимость", "prices")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="w-full border border-[#FF6A00] text-[#FF6A00] text-xs tracking-widest px-4 py-3 uppercase font-semibold">
                 Узнать точную стоимость
@@ -678,7 +708,7 @@ export default function Index() {
           <RevealBlock>
             <p className="text-center text-gray-400 text-sm mt-8 mb-5">Более 1500 выполненных объектов</p>
             <div className="text-center">
-              <button onClick={() => openModal("Хочу такой же результат")}
+              <button onClick={() => { trackPortfolioPhotoClick(); openModal("Хочу такой же результат", "portfolio"); }}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="border-2 border-[#FF6A00] text-[#FF6A00] font-semibold text-sm tracking-widest px-8 py-3 uppercase hover:bg-[#FF6A00] hover:text-white transition-colors">
                 Хочу такой же результат
@@ -720,7 +750,7 @@ export default function Index() {
             <p className="text-white/50 text-sm mt-4 max-w-xl mx-auto leading-relaxed">
               Хорошая кровля стоит своих денег один раз и держится 20–30 лет. Мы объясним всё до начала работ и предложим вариант под ваш бюджет.
             </p>
-            <button onClick={() => openModal("Получить честную смету")}
+            <button onClick={() => openModal("Получить честную смету", "about")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="mt-7 bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-8 py-4 uppercase hover:bg-[#e05a00] transition-colors">
               Получить честную смету
@@ -820,7 +850,7 @@ export default function Index() {
               </Link>
             </div>
           </div>
-          <a href="tel:+79001234567"
+          <a href="tel:+79001234567" onClick={() => trackPhoneClick("footer")}
             style={{ fontFamily: "'Oswald',sans-serif" }}
             className="flex items-center gap-2 text-sm text-[#FF6A00] tracking-wider hover:text-[#e05a00] transition-colors">
             <Icon name="Phone" size={13} />

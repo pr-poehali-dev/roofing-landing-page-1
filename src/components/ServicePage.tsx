@@ -7,6 +7,11 @@ import PromoBanner from "@/components/PromoBanner";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
 import Logo from "@/components/Logo";
+import {
+  trackServiceFormSubmit, trackServicePageView,
+  trackContactModalOpen, trackPhoneClick,
+  trackCtaClick, trackFaqToggle,
+} from "@/utils/analytics";
 
 export interface ServicePageProps {
   title: string;
@@ -88,7 +93,7 @@ function QuickForm({ cta }: { cta: string }) {
   );
 
   return (
-    <form onSubmit={e => { e.preventDefault(); if (allConsented) setSent(true); }}
+    <form onSubmit={e => { e.preventDefault(); if (allConsented) { trackServiceFormSubmit(cta); setSent(true); } }}
       className="bg-white border border-gray-200 shadow-md p-7">
       <div className="flex items-center gap-2 mb-1">
         <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
@@ -126,7 +131,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-gray-200 hover:border-[#FF6A00] transition-colors bg-white">
-      <button onClick={() => setOpen(v => !v)}
+      <button onClick={() => { setOpen(v => !v); if (!open) trackFaqToggle(q); }}
         className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left">
         <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-sm font-semibold tracking-wide uppercase text-gray-900">{q}</span>
         <Icon name={open ? "ChevronUp" : "ChevronDown"} size={16} className="text-[#FF6A00] flex-shrink-0" />
@@ -142,8 +147,10 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 export default function ServicePage({ title, subtitle, description, heroIcon, benefits, steps, faq, cta, photos }: ServicePageProps) {
   const [activePhoto, setActivePhoto] = useState(0);
+
+  useEffect(() => { trackServicePageView(title); }, [title]);
   const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
-  const openModal = (t: string) => setModal({ open: true, title: t });
+  const openModal = (t: string) => { trackContactModalOpen(title); setModal({ open: true, title: t }); };
   const closeModal = () => setModal(p => ({ ...p, open: false }));
 
   const allPhotos = photos && photos.length > 0 ? photos : [
@@ -166,7 +173,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
               <Icon name="ArrowLeft" size={12} />
               Все услуги
             </Link>
-            <a href="tel:+79001234567"
+            <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_nav")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-[#FF6A00] text-white font-semibold text-xs tracking-widest px-4 py-2.5 uppercase hover:bg-[#e05a00] transition-colors">
               +7 (900) 123-45-67
@@ -216,7 +223,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
                 className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors">
                 Перезвоните мне
               </button>
-              <a href="tel:+79001234567"
+              <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_hero")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="flex items-center gap-2 border-2 border-white/40 text-white font-semibold text-sm tracking-widest px-7 py-4 uppercase hover:border-[#FF6A00] hover:text-[#FF6A00] transition-colors">
                 <Icon name="Phone" size={14} />
@@ -340,7 +347,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
                   </div>
                 ))}
               </div>
-              <button onClick={() => openModal("Получить консультацию")}
+              <button onClick={() => { trackCtaClick("Получить консультацию", "service_form"); openModal("Получить консультацию"); }}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors w-full lg:w-auto">
                 Получить консультацию бесплатно
@@ -455,13 +462,13 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <p className="text-white/80 text-sm mt-1">Перезвоним через 5 минут — договоримся о замере</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <a href="tel:+79001234567"
+            <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_cta")}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="flex items-center gap-2 bg-white text-gray-900 font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-gray-100 transition-colors">
               <Icon name="Phone" size={14} />
               Позвонить
             </a>
-            <button onClick={() => openModal("Перезвоните мне")}
+            <button onClick={() => { trackCtaClick("Перезвоните мне", "service_cta"); openModal("Перезвоните мне"); }}
               style={{ fontFamily: "'Oswald',sans-serif" }}
               className="bg-gray-900 text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-black transition-colors">
               Перезвоните мне
@@ -487,7 +494,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
               </Link>
             </div>
           </div>
-          <a href="tel:+79001234567"
+          <a href="tel:+79001234567" onClick={() => trackPhoneClick("service_footer")}
             style={{ fontFamily: "'Oswald',sans-serif" }}
             className="flex items-center gap-2 text-sm text-[#FF6A00] tracking-wider hover:text-[#e05a00] transition-colors">
             <Icon name="Phone" size={13} />

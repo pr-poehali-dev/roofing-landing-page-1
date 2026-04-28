@@ -3,6 +3,7 @@ import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
+import { trackQuizModalClose, trackQuizStep1, trackQuizStep2, trackQuizSubmit } from "@/utils/analytics";
 
 interface QuizModalProps {
   open: boolean;
@@ -77,6 +78,7 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
   const allConsented = consentData && consentPolicy;
 
   const handleClose = () => {
+    trackQuizModalClose();
     onClose();
     setTimeout(() => {
       setStep(1);
@@ -92,6 +94,7 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!allConsented) return;
+    trackQuizSubmit(workType, material);
     setSent(true);
   };
 
@@ -154,7 +157,7 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {WORK_TYPES.map(w => (
                 <button key={w.id}
-                  onClick={() => { setWorkType(w.id); setMaterial(null); setStep(2); }}
+                  onClick={() => { setWorkType(w.id); setMaterial(null); setStep(2); trackQuizStep1(w.label); }}
                   className={`flex items-center gap-3 p-3 md:p-4 border-2 text-left transition-all hover:border-[#FF6A00] hover:bg-orange-50 group ${
                     workType === w.id ? "border-[#FF6A00] bg-orange-50" : "border-gray-200 bg-white"
                   }`}>
@@ -185,7 +188,7 @@ export default function QuizModal({ open, onClose }: QuizModalProps) {
               <div className="grid grid-cols-1 gap-2.5">
                 {currentMaterials.map(m => (
                   <button key={m.id}
-                    onClick={() => { setMaterial(m.id); setStep(3); }}
+                    onClick={() => { setMaterial(m.id); setStep(3); trackQuizStep2(m.label); }}
                     className={`flex items-center justify-between gap-3 p-4 border-2 text-left transition-all hover:border-[#FF6A00] hover:bg-orange-50 group ${
                       material === m.id ? "border-[#FF6A00] bg-orange-50" : "border-gray-200 bg-white"
                     }`}>
