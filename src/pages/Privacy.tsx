@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useMeta } from "@/utils/useMeta";
 
 const OPERATOR = "Самозанятый Кругов М. Г., ИНН 772379179900";
 const TODAY = "01 января 2024 г.";
 
 export default function Privacy() {
+  useMeta({ title: "Политика конфиденциальности — На Высоте", noindex: true });
   return (
     <div className="min-h-screen bg-[#f8f8f8]" style={{ fontFamily: "'Roboto', sans-serif" }}>
 
