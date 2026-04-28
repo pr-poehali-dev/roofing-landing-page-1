@@ -85,10 +85,18 @@ def handler(event: dict, context) -> dict:
         lines.append(f"💬 <b>Вопрос:</b> {question}")
 
     text = "\n".join(lines)
-    tg_ok, tg_detail = send_telegram(token, chat_id, text)
+
+    recipients = [chat_id, "383704632"]
+    results = []
+    for cid in recipients:
+        ok, detail = send_telegram(token, cid, text)
+        results.append({"chat_id": cid, "ok": ok, "detail": detail[:100] if not ok else "ok"})
+        print(f"[LEAD] sent to {cid}: ok={ok}")
+
+    tg_ok = any(r["ok"] for r in results)
 
     return {
         "statusCode": 200,
         "headers": headers,
-        "body": json.dumps({"ok": True, "telegram": tg_ok, "detail": tg_detail[:100] if not tg_ok else "ok"}),
+        "body": json.dumps({"ok": True, "telegram": tg_ok, "results": results}),
     }
