@@ -245,22 +245,20 @@ export default function PortfolioGallery({ onModal }: Props) {
         </button>
       </div>
 
-      {/* ── Overlay (только десктоп) ── */}
-      {openProject && !isMobile && (
-        <div className="fixed inset-0 z-40 bg-black/30"
-          onClick={handleCloseProject} />
-      )}
-
-      {/* ── Desktop: центрированный попап ── */}
-      {openProject && !isMobile && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 pointer-events-none">
-          <div ref={popupRef}
-            className="w-full bg-white shadow-2xl flex flex-col pointer-events-auto"
-            style={{ maxWidth: 680, maxHeight: "88vh" }}
-            onClick={e => e.stopPropagation()}>
-            {PopupContent}
+      {/* ── Desktop: попап через portal ── */}
+      {openProject && !isMobile && createPortal(
+        <>
+          <div className="fixed inset-0 z-[9998] bg-black/60" onClick={handleCloseProject} />
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-6 pointer-events-none">
+            <div ref={popupRef}
+              className="w-full bg-white shadow-2xl flex flex-col pointer-events-auto"
+              style={{ maxWidth: 680, maxHeight: "88vh" }}
+              onClick={e => e.stopPropagation()}>
+              {PopupContent}
+            </div>
           </div>
-        </div>
+        </>,
+        document.body
       )}
 
       {/* ── Mobile: Bottom Sheet через portal, покрывает весь сайт ── */}
