@@ -7,21 +7,17 @@ interface ConsentCheckboxProps {
 
 export default function ConsentCheckbox({ checked, onChange }: ConsentCheckboxProps) {
   return (
-    <label className="flex items-start gap-2.5 cursor-pointer group">
+    <label className="flex items-start gap-2.5 cursor-pointer">
       <div className="relative flex-shrink-0 mt-0.5">
         <input
           type="checkbox"
           checked={checked}
           onChange={e => onChange(e.target.checked)}
-          required
-          className="sr-only"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         />
-        <div
-          onClick={() => onChange(!checked)}
-          className={`w-4 h-4 border-2 flex items-center justify-center transition-colors ${
-            checked ? "bg-[#FF6A00] border-[#FF6A00]" : "bg-white border-gray-300 group-hover:border-[#FF6A00]"
-          }`}
-        >
+        <div className={`w-4 h-4 border-2 flex items-center justify-center transition-colors pointer-events-none ${
+          checked ? "bg-[#FF6A00] border-[#FF6A00]" : "bg-white border-gray-300"
+        }`}>
           {checked && (
             <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
               <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -29,7 +25,7 @@ export default function ConsentCheckbox({ checked, onChange }: ConsentCheckboxPr
           )}
         </div>
       </div>
-      <span className="text-xs text-gray-500 leading-relaxed">
+      <span className="text-xs text-gray-500 leading-relaxed select-none">
         Я даю согласие на обработку персональных данных в соответствии с{" "}
         <Link
           to="/privacy"
