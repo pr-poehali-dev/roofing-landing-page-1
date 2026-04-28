@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/ui/icon";
 import ContactModal from "@/components/ContactModal";
+import PortfolioGallery from "@/components/PortfolioGallery";
 import PromoBanner from "@/components/PromoBanner";
 import QuizModal from "@/components/QuizModal";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
@@ -767,31 +768,9 @@ export default function Index() {
       {/* ── PORTFOLIO ── */}
       <section id="portfolio" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-5">
-          <SectionHead label="Портфолио" title="Наши работы" sub="Реальные объекты — фото до и после" />
+          <SectionHead label="Портфолио" title="Наши работы" sub="Реальные объекты — фото с наших объектов" />
           <RevealBlock>
-            <div className="relative group overflow-hidden cursor-pointer border border-gray-200">
-              <img src={IMG_BEFORE_AFTER} alt="До и после ремонта кровли"
-                className="w-full h-48 sm:h-72 md:h-[380px] object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8">
-                <div className="inline-block bg-[#FF6A00] text-white font-bold text-xs tracking-widest px-3 py-1 mb-2"
-                  style={{ fontFamily: "'Oswald',sans-serif" }}>
-                  ДО / ПОСЛЕ
-                </div>
-                <h3 style={{ fontFamily: "'Oswald',sans-serif" }} className="text-base md:text-2xl font-bold uppercase text-white">Замена старой кровли</h3>
-                <p className="text-white/70 text-xs md:text-sm mt-1">Металлочерепица · Подмосковье · 3 дня</p>
-              </div>
-            </div>
-          </RevealBlock>
-          <RevealBlock>
-            <p className="text-center text-gray-400 text-sm mt-8 mb-5">Более 1500 выполненных объектов</p>
-            <div className="text-center">
-              <button onClick={() => { trackPortfolioPhotoClick(); openModal("Хочу такой же результат", "portfolio"); }}
-                style={{ fontFamily: "'Oswald',sans-serif" }}
-                className="border-2 border-[#FF6A00] text-[#FF6A00] font-semibold text-sm tracking-widest px-8 py-3 uppercase hover:bg-[#FF6A00] hover:text-white transition-colors">
-                Хочу такой же результат
-              </button>
-            </div>
+            <PortfolioGallery onModal={(title) => { trackPortfolioPhotoClick(); openModal(title, "portfolio"); }} />
           </RevealBlock>
         </div>
       </section>
