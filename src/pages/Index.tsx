@@ -304,7 +304,6 @@ function ConsultForm() {
 
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [bannerVisible, setBannerVisible] = useState(true);
   const [modal, setModal] = useState<{ open: boolean; title: string }>({ open: false, title: "" });
   const openModal = (title: string) => setModal({ open: true, title });
   const closeModal = () => setModal(p => ({ ...p, open: false }));
@@ -317,10 +316,9 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#f8f8f8] text-gray-900 overflow-x-hidden" style={{ fontFamily: "'Roboto',sans-serif" }}>
       <ContactModal open={modal.open} onClose={closeModal} title={modal.title} />
-      <PromoBanner onHeightChange={h => setBannerVisible(h > 0)} />
 
       {/* ── NAV ── */}
-      <nav className={`fixed inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm transition-all duration-300 ${bannerVisible ? "top-[38px]" : "top-0"}`}>
+      <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <button onClick={() => scrollTo("#hero")}
             style={{ fontFamily: "'Oswald',sans-serif" }}
@@ -376,8 +374,13 @@ export default function Index() {
         )}
       </nav>
 
+      {/* ── PROMO BANNER ── */}
+      <div className="pt-[60px]">
+        <PromoBanner />
+      </div>
+
       {/* ── HERO ── */}
-      <section id="hero" className={bannerVisible ? "pt-[98px]" : "pt-[60px]"}>
+      <section id="hero">
         <div className="relative min-h-[90vh] flex items-center overflow-hidden">
           <div className="absolute inset-0">
             <img src={IMG_HERO} alt="Кровельные работы" className="w-full h-full object-cover" />
