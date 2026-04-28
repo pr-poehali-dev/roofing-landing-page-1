@@ -185,13 +185,27 @@ function HeroForm() {
 
 // ── Calculator ────────────────────────────────────────────────────────────────
 
+const CALC_UNIT_CONFIG: Record<string, { label: string; min: number; max: number; step: number; sliderMax: number }> = {
+  "м²": { label: "Площадь", min: 10, max: 1000, step: 1, sliderMax: 500 },
+  "м³": { label: "Объём", min: 1, max: 500, step: 1, sliderMax: 200 },
+};
+
 function Calculator({ onModal }: { onModal: (title: string) => void }) {
-  const [area, setArea] = useState(80);
-  const [typeIdx, setTypeIdx] = useState(1);
+  const [qty, setQty] = useState(80);
+  const [typeIdx, setTypeIdx] = useState(0);
   const selected = PRICE_TYPES[typeIdx];
-  const workCost = area * selected.price;
+  const unitCfg = CALC_UNIT_CONFIG[selected.unit] ?? { label: "Площадь", min: 10, max: 1000, step: 1, sliderMax: 500 };
+  const workCost = qty * selected.price;
   const materialCoeff = 1.55;
   const total = Math.round(workCost * materialCoeff);
+
+  const handleTypeChange = (i: number) => {
+    setTypeIdx(i);
+    const newUnit = PRICE_TYPES[i].unit;
+    const cfg = CALC_UNIT_CONFIG[newUnit] ?? CALC_UNIT_CONFIG["м²"];
+    setQty(cfg.min * 8);
+    trackCalculatorMaterialSelect(PRICE_TYPES[i].label);
+  };
 
   return (
     <section id="calculator" className="py-20 bg-[#FF6A00]">
@@ -204,36 +218,36 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
             {/* Left: controls */}
             <div>
-              {/* Area slider */}
+              {/* Quantity slider */}
               <div className="mb-8">
                 <div className="flex justify-between items-center mb-3">
-                  <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-sm font-semibold uppercase tracking-wider text-gray-700">Площадь кровли</label>
+                  <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-sm font-semibold uppercase tracking-wider text-gray-700">{unitCfg.label}</label>
                   <div className="flex items-center gap-2">
-                    <input type="number" min={10} max={1000} value={area}
-                      onChange={e => setArea(Math.max(10, Math.min(1000, Number(e.target.value))))}
+                    <input type="number" min={unitCfg.min} max={unitCfg.max} value={qty}
+                      onChange={e => setQty(Math.max(unitCfg.min, Math.min(unitCfg.max, Number(e.target.value))))}
                       className="w-20 border border-gray-300 text-center py-1.5 text-sm font-bold text-[#FF6A00] focus:outline-none focus:border-[#FF6A00]" />
-                    <span className="text-gray-500 text-sm">м²</span>
+                    <span className="text-gray-500 text-sm">{selected.unit}</span>
                   </div>
                 </div>
-                <input type="range" min={10} max={500} value={area}
-                  onChange={e => setArea(Number(e.target.value))}
+                <input type="range" min={unitCfg.min} max={unitCfg.sliderMax} value={Math.min(qty, unitCfg.sliderMax)}
+                  onChange={e => setQty(Number(e.target.value))}
                   className="w-full" />
                 <div className="flex justify-between text-xs text-gray-400 mt-1">
-                  <span>10 м²</span><span>500 м²</span>
+                  <span>{unitCfg.min} {selected.unit}</span><span>{unitCfg.sliderMax} {selected.unit}</span>
                 </div>
               </div>
 
-              {/* Type selector */}
+              {/* Work type selector */}
               <div>
-                <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-sm font-semibold uppercase tracking-wider text-gray-700 block mb-3">Тип покрытия</label>
+                <label style={{ fontFamily: "'Oswald',sans-serif" }} className="text-sm font-semibold uppercase tracking-wider text-gray-700 block mb-3">Вид работ</label>
                 <div className="grid grid-cols-1 gap-2">
                   {PRICE_TYPES.map((t, i) => (
-                    <button key={t.label} onClick={() => { setTypeIdx(i); trackCalculatorMaterialSelect(t.label); }}
+                    <button key={t.label} onClick={() => handleTypeChange(i)}
                       className={`flex items-center justify-between px-4 py-3 border text-sm transition-colors ${i === typeIdx
                         ? "border-[#FF6A00] bg-orange-50 text-[#FF6A00] font-semibold"
                         : "border-gray-200 bg-gray-50 text-gray-600 hover:border-gray-400"}`}>
-                      <span style={{ fontFamily: "'Oswald',sans-serif" }} className="uppercase tracking-wide">{t.label}</span>
-                      <span className="font-bold">от {t.price} ₽/{t.unit}</span>
+                      <span style={{ fontFamily: "'Oswald',sans-serif" }} className="uppercase tracking-wide text-left">{t.label}</span>
+                      <span className="font-bold whitespace-nowrap ml-2">от {t.price} ₽/{t.unit}</span>
                     </button>
                   ))}
                 </div>
@@ -244,18 +258,18 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
             <div className="flex flex-col justify-between">
               <div>
                 <div className="bg-gray-50 border border-gray-200 p-6 mb-4">
-                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "'Oswald',sans-serif" }}>Работы</p>
+                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "'Oswald',sans-serif" }}>Стоимость работ</p>
                   <p className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Oswald',sans-serif" }}>
                     {workCost.toLocaleString("ru-RU")} ₽
                   </p>
-                  <p className="text-gray-400 text-xs mt-1">{area} {selected.unit} × {selected.price} ₽/{selected.unit}</p>
+                  <p className="text-gray-400 text-xs mt-1">{qty} {selected.unit} × {selected.price} ₽/{selected.unit}</p>
                 </div>
                 <div className="bg-[#FF6A00] p-6 mb-6">
                   <p className="text-white/80 text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "'Oswald',sans-serif" }}>Итого с материалами</p>
                   <p className="text-4xl font-bold text-white" style={{ fontFamily: "'Oswald',sans-serif" }}>
                     от {total.toLocaleString("ru-RU")} ₽
                   </p>
-                  <p className="text-white/70 text-xs mt-1">Включая доставку материалов</p>
+                  <p className="text-white/70 text-xs mt-1">Работы + материалы (+55%)</p>
                 </div>
                 <div className="space-y-2 mb-6">
                   {[
@@ -270,7 +284,7 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                   ))}
                 </div>
               </div>
-              <button onClick={() => { trackCalculatorSubmit(selected.label, area); onModal("Получить точную смету"); }}
+              <button onClick={() => { trackCalculatorSubmit(selected.label, qty); onModal("Получить точную смету"); }}
                 className="block w-full bg-gray-900 text-white text-center font-bold text-sm tracking-widest py-4 uppercase hover:bg-black transition-colors"
                 style={{ fontFamily: "'Oswald',sans-serif" }}>
                 Получить точную смету
