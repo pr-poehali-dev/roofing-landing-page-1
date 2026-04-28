@@ -236,9 +236,9 @@ export default function PortfolioGallery({ onModal }: Props) {
         </button>
       </div>
 
-      {/* ── Overlay backdrop (клик закрывает) ── */}
+      {/* ── Overlay (только десктоп) ── */}
       {openProject && (
-        <div className="fixed inset-0 z-40 bg-black/40 md:bg-black/30"
+        <div className="hidden md:block fixed inset-0 z-40 bg-black/30"
           onClick={handleCloseProject} />
       )}
 
@@ -254,15 +254,107 @@ export default function PortfolioGallery({ onModal }: Props) {
         </div>
       )}
 
-      {/* ── Mobile: Bottom Sheet ── */}
+      {/* ── Mobile: Bottom Sheet на всю ширину, прижат к низу ── */}
       {openProject && (
-        <div className="md:hidden fixed inset-x-0 bottom-0 z-50 flex flex-col"
-          style={{ maxHeight: "90vh" }}
+        <div className="md:hidden fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white shadow-[0_-4px_24px_rgba(0,0,0,0.18)]"
+          style={{ height: "80vh" }}
           onClick={e => e.stopPropagation()}>
-          <div className="bg-white flex flex-col rounded-t-2xl shadow-2xl overflow-hidden"
-            style={{ maxHeight: "90vh" }}>
-            {PopupContent}
+
+          {/* Drag handle */}
+          <div className="flex-shrink-0 flex justify-center pt-2.5 pb-1">
+            <div className="w-10 h-1 rounded-full bg-gray-300" />
           </div>
+
+          {/* Header */}
+          <div className="flex-shrink-0 border-b border-gray-100 flex items-start justify-between px-4 py-3">
+            <div className="pr-3 min-w-0">
+              {openProject.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-1">
+                  {openProject.tags.map(tag => (
+                    <span key={tag} className="text-[10px] bg-orange-50 text-[#FF6A00] border border-orange-100 px-2 py-0.5 font-medium">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <h2 style={{ fontFamily: "'Oswald',sans-serif" }}
+                className="text-base font-bold uppercase text-gray-900 leading-tight">
+                {openProject.title}
+              </h2>
+              {openProject.description && (
+                <p className="text-gray-400 text-xs mt-0.5 line-clamp-1">{openProject.description}</p>
+              )}
+            </div>
+            <button onClick={handleCloseProject}
+              className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 transition-colors">
+              <Icon name="X" size={18} />
+            </button>
+          </div>
+
+          {/* Контент: сетка или увеличенное фото */}
+          {zoomIdx !== null ? (
+            /* Увеличенное фото */
+            <div className="flex-1 flex flex-col min-h-0">
+              {/* Back + counter */}
+              <div className="flex-shrink-0 flex items-center justify-between px-4 py-2 bg-gray-50 border-b border-gray-100">
+                <button onClick={() => setZoomIdx(null)}
+                  className="flex items-center gap-1.5 text-gray-500 text-sm">
+                  <Icon name="ArrowLeft" size={14} />
+                  <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xs tracking-widest uppercase">Назад</span>
+                </button>
+                <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-gray-400 text-xs font-bold">
+                  {zoomIdx + 1} / {openProject.photos.length}
+                </span>
+                <div className="w-16" />
+              </div>
+
+              {/* Фото с боковой навигацией */}
+              <div className="flex-1 flex items-center justify-center bg-gray-900 relative min-h-0">
+                <button onClick={zoomPrev}
+                  className="absolute left-2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-[#FF6A00] text-white flex items-center justify-center transition-colors">
+                  <Icon name="ChevronLeft" size={18} />
+                </button>
+                <img
+                  key={zoomIdx}
+                  src={openProject.photos[zoomIdx].src}
+                  alt=""
+                  className="max-w-full max-h-full object-contain select-none cursor-pointer"
+                  style={{ padding: "0 48px" }}
+                  onClick={() => setZoomIdx(null)}
+                />
+                <button onClick={zoomNext}
+                  className="absolute right-2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-[#FF6A00] text-white flex items-center justify-center transition-colors">
+                  <Icon name="ChevronRight" size={18} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* Сетка фото */
+            <>
+              <div className="flex-1 overflow-y-auto p-3">
+                <div className="grid grid-cols-2 gap-2">
+                  {openProject.photos.map((ph, i) => (
+                    <button key={i} onClick={() => setZoomIdx(i)}
+                      className="relative overflow-hidden aspect-[4/3] focus:outline-none bg-gray-100">
+                      <img src={ph.src} alt=""
+                        className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-gray-50 flex items-center justify-between gap-3">
+                <span className="text-gray-400 text-xs flex items-center gap-1">
+                  <Icon name="Images" size={12} className="text-[#FF6A00]" />
+                  {openProject.photos.length} фото
+                </span>
+                <button onClick={() => { handleCloseProject(); onModal("Хочу такой же результат"); }}
+                  style={{ fontFamily: "'Oswald',sans-serif" }}
+                  className="bg-[#FF6A00] text-white font-bold text-xs tracking-widest px-5 py-2.5 uppercase hover:bg-[#e05a00] transition-colors">
+                  Хочу так же
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
     </>
