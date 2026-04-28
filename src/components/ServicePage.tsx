@@ -160,45 +160,61 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
       </nav>
 
       {/* ── HERO ── */}
-      <section className="pt-[60px]">
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-6xl mx-auto px-5 py-20 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="flex items-center gap-3 mb-5">
-                <ALine />
-                <OL>Кровельные работы</OL>
-              </div>
-              <h1 style={{ fontFamily: "'Oswald',sans-serif" }}
-                className="text-[clamp(2rem,4.5vw,3.5rem)] font-bold uppercase leading-tight text-gray-900 mb-4">
-                {title}
-              </h1>
-              <p style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[#FF6A00] font-semibold text-base mb-5">{subtitle}</p>
-              <p className="text-gray-600 leading-relaxed mb-8">{description}</p>
-              <div className="flex flex-wrap gap-3">
-                <a href="#form"
-                  style={{ fontFamily: "'Oswald',sans-serif" }}
-                  className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors">
-                  Перезвоните мне
-                </a>
-                <a href="tel:+79001234567"
-                  style={{ fontFamily: "'Oswald',sans-serif" }}
-                  className="flex items-center gap-2 border-2 border-gray-300 text-gray-700 font-semibold text-sm tracking-widest px-7 py-4 uppercase hover:border-[#FF6A00] hover:text-[#FF6A00] transition-colors">
-                  <Icon name="Phone" size={14} />
-                  Позвонить
-                </a>
-              </div>
+      <section className="pt-[60px] relative overflow-hidden" style={{ minHeight: "75vh" }}>
+        {/* background image */}
+        <div className="absolute inset-0">
+          <img
+            src={allPhotos[0].src}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900/88 via-gray-900/60 to-gray-900/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent" />
+        </div>
+
+        {/* content */}
+        <div className="relative max-w-6xl mx-auto px-5 py-24 md:py-32 flex items-center min-h-[75vh]">
+          <div className="max-w-2xl">
+            <div className="animate-fade-in-up flex items-center gap-3 mb-5">
+              <div className="h-px w-10 bg-[#FF6A00]" />
+              <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-[11px] tracking-[0.3em] text-[#FF6A00] uppercase font-semibold">
+                Кровельные работы
+              </span>
             </div>
-            <div className="flex items-center justify-center">
-              <div className="relative">
-                <div className="w-56 h-56 md:w-64 md:h-64 bg-orange-50 border-2 border-[#FF6A00]/20 flex items-center justify-center">
-                  <Icon name={heroIcon as any} size={88} className="text-[#FF6A00]/50" />
+            <h1 style={{ fontFamily: "'Oswald',sans-serif", animationDelay: "0.1s" }}
+              className="animate-fade-in-up text-[clamp(2.2rem,5vw,4rem)] font-bold uppercase leading-tight text-white mb-4">
+              {title}
+            </h1>
+            <p style={{ fontFamily: "'Oswald',sans-serif", animationDelay: "0.2s" }}
+              className="animate-fade-in-up text-[#FF6A00] font-semibold text-lg mb-5">{subtitle}</p>
+            <p style={{ animationDelay: "0.25s" }}
+              className="animate-fade-in-up text-white/75 leading-relaxed mb-8 max-w-lg">{description}</p>
+            <div className="animate-fade-in-up flex flex-wrap gap-3 mb-10" style={{ animationDelay: "0.3s" }}>
+              <a href="#form"
+                style={{ fontFamily: "'Oswald',sans-serif" }}
+                className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors">
+                Перезвоните мне
+              </a>
+              <a href="tel:+79001234567"
+                style={{ fontFamily: "'Oswald',sans-serif" }}
+                className="flex items-center gap-2 border-2 border-white/40 text-white font-semibold text-sm tracking-widest px-7 py-4 uppercase hover:border-[#FF6A00] hover:text-[#FF6A00] transition-colors">
+                <Icon name="Phone" size={14} />
+                Позвонить
+              </a>
+            </div>
+            {/* badges */}
+            <div className="animate-fade-in-up flex flex-wrap gap-3" style={{ animationDelay: "0.4s" }}>
+              {[
+                { icon: "Zap", text: "За 5 дней" },
+                { icon: "ShieldCheck", text: "Гарантия 5 лет" },
+                { icon: "Clock", text: "Замер за 3 часа" },
+                { icon: "DollarSign", text: "Цена фиксируется" },
+              ].map(b => (
+                <div key={b.text} className="flex items-center gap-2 bg-white/10 border border-white/20 px-3 py-1.5">
+                  <Icon name={b.icon as any} size={13} className="text-[#FF6A00]" />
+                  <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xs tracking-widest uppercase text-white/80">{b.text}</span>
                 </div>
-                <div className="absolute -top-3 -right-3 w-full h-full border-2 border-gray-200 pointer-events-none" />
-                <div className="absolute -bottom-5 -left-5 bg-[#FF6A00] text-white font-bold text-xs tracking-widest px-4 py-2"
-                  style={{ fontFamily: "'Oswald',sans-serif" }}>
-                  ГАРАНТИЯ 5 ЛЕТ
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
