@@ -54,7 +54,7 @@ const STEPS = [
 const WHY = [
   { icon: "Zap", title: "Крышу за 5 дней", desc: "Стандартный дом кроем за 5 рабочих дней" },
   { icon: "CloudRain", title: "В любую погоду", desc: "Дождь и ветер нас не останавливают" },
-  { icon: "ShieldCheck", title: "Гарантия 5 лет", desc: "Письменно в договоре. Приедем и исправим." },
+  { icon: "ShieldCheck", title: "Гарантия 3 года", desc: "Письменно в договоре. Приедем и исправим." },
   { icon: "Clock", title: "Замер через 3 часа", desc: "Позвонили утром — мастер уже у вас к обеду" },
   { icon: "Users", title: "15 своих мастеров", desc: "Граждане РФ, без субподряда, с опытом" },
   { icon: "Star", title: "1500+ объектов", desc: "10 лет опыта, более полутора тысяч кровель" },
@@ -70,7 +70,7 @@ const REVIEWS = [
 ];
 
 const GUARANTEES = [
-  { icon: "ShieldCheck", title: "Гарантия на работы — 5 лет", desc: "Любые дефекты по нашей вине устраняем бесплатно в течение 5 лет" },
+  { icon: "ShieldCheck", title: "Гарантия на работы — 3 года", desc: "Любые дефекты по нашей вине устраняем бесплатно в течение 3 лет" },
   { icon: "Package", title: "Только сертифицированные материалы", desc: "Металлочерепица, профнастил от проверенных производителей. Предоставляем сертификаты." },
   { icon: "FileCheck", title: "Договор с фиксированной ценой", desc: "Цена зафиксирована в договоре и не изменится — даже если выросли цены на материалы." },
   { icon: "RefreshCw", title: "Бесплатные исправления", desc: "Если что-то не понравилось — исправим до полного удовлетворения без доплат." },
@@ -269,13 +269,13 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                   <p className="text-4xl font-bold text-white" style={{ fontFamily: "'Oswald',sans-serif" }}>
                     от {total.toLocaleString("ru-RU")} ₽
                   </p>
-                  <p className="text-white/70 text-xs mt-1">Работы + материалы (+55%)</p>
+                  <p className="text-white/70 text-xs mt-1">Включая доставку материалов</p>
                 </div>
                 <div className="space-y-2 mb-6">
                   {[
                     "Точная цена — после бесплатного замера",
                     "Цена фиксируется в договоре",
-                    "Гарантия 5 лет на все работы",
+                    "Гарантия 3 года на все работы",
                   ].map(t => (
                     <div key={t} className="flex items-center gap-2 text-sm text-gray-600">
                       <Icon name="Check" size={14} className="text-[#FF6A00] flex-shrink-0" />

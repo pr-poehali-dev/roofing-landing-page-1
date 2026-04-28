@@ -20,7 +20,7 @@ export default function FasadnyeRaboty() {
         { icon: "Paintbrush", text: "Дом выглядит аккуратно и современно — сразу видна разница" },
         { icon: "Thermometer", text: "Монтаж утеплителя под сайдинг — дополнительное тепло" },
         { icon: "Droplets", text: "Водоотливная система отводит воду от фундамента" },
-        { icon: "ShieldCheck", text: "Гарантия на монтаж — 5 лет" },
+        { icon: "ShieldCheck", text: "Гарантия на монтаж — 3 года" },
         { icon: "Clock", text: "Замер и расчёт бесплатно, приедем за 3 часа" },
       ]}
       steps={[
