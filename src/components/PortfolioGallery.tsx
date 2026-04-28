@@ -262,27 +262,20 @@ export default function PortfolioGallery({ onModal }: Props) {
         </div>
       )}
 
-      {/* ── Mobile: затемнение фона ── */}
-      {openProject && isMobile && (
-        <div className="fixed inset-0 z-40 bg-black/50" onClick={handleCloseProject} />
-      )}
-
-      {/* ── Mobile: Bottom Sheet на всю ширину, прижат к низу ── */}
-      {openProject && isMobile && (
-        <div className="fixed inset-x-0 bottom-0 z-50 flex flex-col bg-white rounded-t-2xl shadow-[0_-8px_32px_rgba(0,0,0,0.25)]"
-          style={{ height: "65vh" }}
-          onClick={e => e.stopPropagation()}>
-
-          {/* Drag handle */}
-          <div className="flex-shrink-0 flex justify-center pt-2.5 pb-1">
-            <div className="w-10 h-1 rounded-full bg-gray-300" />
-          </div>
-
+      {/* ── Mobile: Bottom Sheet на весь экран с анимацией ── */}
+      {isMobile && openProject && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col bg-white"
+          style={{
+            animation: "slideUp 0.32s cubic-bezier(0.32, 0.72, 0, 1) both",
+          }}
+          onClick={e => e.stopPropagation()}
+        >
           {/* Header */}
-          <div className="flex-shrink-0 border-b border-gray-100 flex items-start justify-between px-4 py-3">
+          <div className="flex-shrink-0 border-b border-gray-100 flex items-start justify-between px-4 py-4 pt-14">
             <div className="pr-3 min-w-0">
               {openProject.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-1">
+                <div className="flex flex-wrap gap-1 mb-1.5">
                   {openProject.tags.map(tag => (
                     <span key={tag} className="text-[10px] bg-orange-50 text-[#FF6A00] border border-orange-100 px-2 py-0.5 font-medium">
                       {tag}
@@ -291,28 +284,26 @@ export default function PortfolioGallery({ onModal }: Props) {
                 </div>
               )}
               <h2 style={{ fontFamily: "'Oswald',sans-serif" }}
-                className="text-base font-bold uppercase text-gray-900 leading-tight">
+                className="text-lg font-bold uppercase text-gray-900 leading-tight">
                 {openProject.title}
               </h2>
               {openProject.description && (
-                <p className="text-gray-400 text-xs mt-0.5 line-clamp-1">{openProject.description}</p>
+                <p className="text-gray-400 text-xs mt-0.5 line-clamp-2">{openProject.description}</p>
               )}
             </div>
             <button onClick={handleCloseProject}
-              className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 transition-colors">
+              className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full text-gray-400 bg-gray-100 active:bg-gray-200 transition-colors">
               <Icon name="X" size={18} />
             </button>
           </div>
 
-          {/* Контент: сетка или увеличенное фото */}
+          {/* Контент */}
           {zoomIdx !== null ? (
-            /* Увеличенное фото */
             <div className="flex-1 flex flex-col min-h-0">
-              {/* Back + counter */}
               <div className="flex-shrink-0 flex items-center justify-between px-4 py-2 bg-gray-50 border-b border-gray-100">
                 <button onClick={() => setZoomIdx(null)}
-                  className="flex items-center gap-1.5 text-gray-500 text-sm">
-                  <Icon name="ArrowLeft" size={14} />
+                  className="flex items-center gap-1.5 text-gray-500">
+                  <Icon name="ArrowLeft" size={16} />
                   <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-xs tracking-widest uppercase">Назад</span>
                 </button>
                 <span style={{ fontFamily: "'Oswald',sans-serif" }} className="text-gray-400 text-xs font-bold">
@@ -320,37 +311,32 @@ export default function PortfolioGallery({ onModal }: Props) {
                 </span>
                 <div className="w-16" />
               </div>
-
-              {/* Фото с боковой навигацией */}
               <div className="flex-1 flex items-center justify-center bg-gray-900 relative min-h-0">
                 <button onClick={zoomPrev}
-                  className="absolute left-2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-[#FF6A00] text-white flex items-center justify-center transition-colors">
-                  <Icon name="ChevronLeft" size={18} />
+                  className="absolute left-2 z-10 w-10 h-10 rounded-full bg-black/40 text-white flex items-center justify-center">
+                  <Icon name="ChevronLeft" size={20} />
                 </button>
-                <img
-                  key={zoomIdx}
+                <img key={zoomIdx}
                   src={openProject.photos[zoomIdx].src}
                   alt=""
-                  className="max-w-full max-h-full object-contain select-none cursor-pointer"
-                  style={{ padding: "0 48px" }}
+                  className="max-w-full max-h-full object-contain select-none"
+                  style={{ padding: "0 52px" }}
                   onClick={() => setZoomIdx(null)}
                 />
                 <button onClick={zoomNext}
-                  className="absolute right-2 z-10 w-9 h-9 rounded-full bg-black/40 hover:bg-[#FF6A00] text-white flex items-center justify-center transition-colors">
-                  <Icon name="ChevronRight" size={18} />
+                  className="absolute right-2 z-10 w-10 h-10 rounded-full bg-black/40 text-white flex items-center justify-center">
+                  <Icon name="ChevronRight" size={20} />
                 </button>
               </div>
             </div>
           ) : (
-            /* Сетка фото */
             <>
               <div className="flex-1 overflow-y-auto p-3">
                 <div className="grid grid-cols-2 gap-2">
                   {openProject.photos.map((ph, i) => (
                     <button key={i} onClick={() => setZoomIdx(i)}
                       className="relative overflow-hidden aspect-[4/3] focus:outline-none bg-gray-100">
-                      <img src={ph.src} alt=""
-                        className="w-full h-full object-cover" />
+                      <img src={ph.src} alt="" className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
@@ -362,7 +348,7 @@ export default function PortfolioGallery({ onModal }: Props) {
                 </span>
                 <button onClick={() => { handleCloseProject(); onModal("Хочу такой же результат"); }}
                   style={{ fontFamily: "'Oswald',sans-serif" }}
-                  className="bg-[#FF6A00] text-white font-bold text-xs tracking-widest px-5 py-2.5 uppercase hover:bg-[#e05a00] transition-colors">
+                  className="bg-[#FF6A00] text-white font-bold text-xs tracking-widest px-5 py-2.5 uppercase">
                   Хочу так же
                 </button>
               </div>
@@ -370,6 +356,13 @@ export default function PortfolioGallery({ onModal }: Props) {
           )}
         </div>
       )}
+
+      <style>{`
+        @keyframes slideUp {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
+        }
+      `}</style>
     </>
   );
 }
