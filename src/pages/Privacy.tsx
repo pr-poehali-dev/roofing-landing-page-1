@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useMeta } from "@/utils/useMeta";
+import Logo from "@/components/Logo";
 
 const OPERATOR = "Самозанятый Кругов М. Г., ИНН 772379179900";
 const TODAY = "01 января 2024 г.";
@@ -12,10 +13,7 @@ export default function Privacy() {
       {/* NAV */}
       <nav className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-5 h-[60px] flex items-center justify-between">
-          <Link to="/">
-            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-9 w-auto rounded object-contain" />
-          </Link>
+          <Link to="/"><Logo /></Link>
           <Link to="/"
             className="text-sm text-gray-500 hover:text-[#FF6A00] transition-colors flex items-center gap-1.5">
             ← На главную
@@ -185,10 +183,7 @@ export default function Privacy() {
       {/* FOOTER */}
       <footer className="bg-gray-900 border-t border-gray-800 py-6 mt-10">
         <div className="max-w-4xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link to="/">
-            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-10 w-auto" />
-          </Link>
+          <Link to="/"><Logo dark /></Link>
           <p className="text-gray-500 text-xs text-center">
             © 2024 {OPERATOR}. Все права защищены.
           </p>

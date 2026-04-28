@@ -6,6 +6,7 @@ import ContactModal from "@/components/ContactModal";
 import PromoBanner from "@/components/PromoBanner";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
+import Logo from "@/components/Logo";
 
 export interface ServicePageProps {
   title: string;
@@ -158,10 +159,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
       {/* NAV */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-5 h-[60px] flex items-center justify-between">
-          <Link to="/" style={{ fontFamily: "'Oswald',sans-serif" }}
-            className="text-lg font-bold tracking-widest uppercase text-gray-900">
-            КРОВ<span className="text-[#FF6A00]">ЕЛЬ</span>
-          </Link>
+          <Link to="/"><Logo /></Link>
           <div className="flex items-center gap-4">
             <Link to="/" style={{ fontFamily: "'Oswald',sans-serif" }}
               className="flex items-center gap-1.5 text-xs tracking-widest text-gray-500 hover:text-gray-900 uppercase transition-colors">
@@ -475,10 +473,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
       {/* FOOTER */}
       <footer className="bg-gray-900 border-t border-gray-800 py-6">
         <div className="max-w-6xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link to="/">
-            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-10 w-auto" />
-          </Link>
+          <Link to="/"><Logo dark /></Link>
           <div className="flex flex-col items-center gap-1.5 text-center">
             <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
             <p className="text-gray-600 text-xs">Оператор ПД: самозанятый Кругов М. Г., ИНН 772379179900</p>

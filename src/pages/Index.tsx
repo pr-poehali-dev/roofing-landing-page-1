@@ -7,6 +7,7 @@ import PromoBanner from "@/components/PromoBanner";
 import QuizModal from "@/components/QuizModal";
 import ConsentCheckbox from "@/components/ConsentCheckbox";
 import { formatPhone } from "@/utils/phoneFormat";
+import Logo from "@/components/Logo";
 
 const IMG_HERO = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/eb1d19fa-a54a-4956-a3ee-268508e4269a.jpg";
 const IMG_HOUSE = "https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/52607fd3-f0f6-4492-922f-190b3233c4a4.jpg";
@@ -347,8 +348,7 @@ export default function Index() {
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <button onClick={() => scrollTo("#hero")} className="shrink-0">
-            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-9 w-auto rounded object-contain" />
+            <Logo />
           </button>
           <div className="hidden xl:flex items-center gap-6">
             {NAV.map(l => (
@@ -805,8 +805,7 @@ export default function Index() {
       <footer className="bg-gray-900 py-8 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-5 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
-            <img src="https://cdn.poehali.dev/projects/0a66a9c5-b11e-428a-881d-33e417292011/files/22921960-057d-478e-ac42-d5dbd402d5f3.jpg"
-              alt="На Высоте — Кровельные и фасадные работы" className="h-10 w-auto" />
+            <Logo dark />
           </div>
           <div className="flex flex-col items-center gap-1.5 text-center">
             <p className="text-gray-500 text-xs">© 2024 Кровельная компания. Все права защищены.</p>
