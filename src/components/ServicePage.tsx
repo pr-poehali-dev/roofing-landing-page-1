@@ -157,7 +157,7 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
       <ContactModal open={modal.open} onClose={closeModal} title={modal.title} />
 
       {/* NAV */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-white/97 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+      <nav className="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-5 h-[60px] flex items-center justify-between">
           <Link to="/"><Logo /></Link>
           <div className="flex items-center gap-4">
