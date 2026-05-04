@@ -13,7 +13,7 @@ export default function PromoBanner() {
           <Icon name="Flame" size={15} className="text-white flex-shrink-0" />
           <p className="text-xs md:text-sm leading-tight text-center">
             <span style={{ fontFamily: "'Oswald',sans-serif" }} className="font-bold uppercase tracking-wide">
-              Акция до 30 апреля:&nbsp;
+              Акция до 31 мая:&nbsp;
             </span>
             полный расчёт стоимости работ и материалов{" "}
             <span style={{ fontFamily: "'Oswald',sans-serif" }} className="font-bold">
