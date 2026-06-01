@@ -261,20 +261,38 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
             {/* Right: result */}
             <div className="flex flex-col justify-between">
               <div>
-                <div className="bg-gray-50 border border-gray-200 p-6 mb-4">
+                {/* Стоимость работ */}
+                <div className="bg-gray-50 border border-gray-200 p-6 mb-4 relative overflow-hidden">
+                  <div className="absolute top-3 right-3 bg-green-500 text-white text-[10px] font-bold tracking-widest px-2 py-0.5 uppercase"
+                    style={{ fontFamily: "'Oswald',sans-serif" }}>
+                    −20%
+                  </div>
                   <p className="text-gray-500 text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "'Oswald',sans-serif" }}>Стоимость работ</p>
+                  <p className="text-lg text-gray-400 line-through leading-tight" style={{ fontFamily: "'Oswald',sans-serif" }}>
+                    {Math.round(workCost / 0.8).toLocaleString("ru-RU")} ₽
+                  </p>
                   <p className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Oswald',sans-serif" }}>
                     {workCost.toLocaleString("ru-RU")} ₽
                   </p>
                   <p className="text-gray-400 text-xs mt-1">{qty} {selected.unit} × {selected.price} ₽/{selected.unit}</p>
                 </div>
-                <div className="bg-[#FF6A00] p-6 mb-6">
+
+                {/* Итого с материалами */}
+                <div className="bg-[#FF6A00] p-6 mb-6 relative overflow-hidden">
+                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/20 border border-white/30 px-2 py-0.5">
+                    <Icon name="Tag" size={10} className="text-white" />
+                    <span className="text-white text-[10px] font-bold tracking-widest uppercase" style={{ fontFamily: "'Oswald',sans-serif" }}>Акция</span>
+                  </div>
                   <p className="text-white/80 text-xs uppercase tracking-widest mb-1" style={{ fontFamily: "'Oswald',sans-serif" }}>Итого с материалами</p>
+                  <p className="text-lg text-white/50 line-through leading-tight" style={{ fontFamily: "'Oswald',sans-serif" }}>
+                    от {Math.round(total / 0.8).toLocaleString("ru-RU")} ₽
+                  </p>
                   <p className="text-4xl font-bold text-white" style={{ fontFamily: "'Oswald',sans-serif" }}>
                     от {total.toLocaleString("ru-RU")} ₽
                   </p>
                   <p className="text-white/70 text-xs mt-1">Включая доставку материалов</p>
                 </div>
+
                 <div className="space-y-2 mb-6">
                   {[
                     "Точная цена — после бесплатного замера",
@@ -288,10 +306,14 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                   ))}
                 </div>
               </div>
-              <button onClick={() => { trackCalculatorSubmit(selected.label, qty); onModal("Получить точную смету"); }}
-                className="block w-full bg-gray-900 text-white text-center font-bold text-sm tracking-widest py-4 uppercase hover:bg-black transition-colors"
+              <button onClick={() => { trackCalculatorSubmit(selected.label, qty); onModal("Зафиксировать скидку 20% на смету"); }}
+                className="relative block w-full bg-gray-900 text-white text-center font-bold text-sm tracking-widest py-4 uppercase overflow-hidden group"
                 style={{ fontFamily: "'Oswald',sans-serif" }}>
-                Получить точную смету
+                <span className="absolute inset-0 bg-[#FF6A00] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-out" />
+                <span className="relative flex items-center justify-center gap-2">
+                  <Icon name="Calculator" size={15} />
+                  Получить смету со скидкой 20%
+                </span>
               </button>
             </div>
           </div>
