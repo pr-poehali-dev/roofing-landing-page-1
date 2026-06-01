@@ -490,7 +490,7 @@ export default function Index() {
                     className="flex items-center gap-2.5 bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors"
                   >
                     <Icon name="ClipboardList" size={16} />
-                    Рассчитать стоимость
+                    Рассчитать стоимость со скидкой 20%
                   </button>
                   <button
                     onClick={() => { trackCtaClick("Вызвать замерщика", "hero"); openModal("Вызвать замерщика", "hero"); }}
