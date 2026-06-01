@@ -71,7 +71,7 @@ export default function ContactModal({ open, onClose, title = "Получить 
               <div className="w-2 h-2 rounded-full bg-[#FF6A00] animate-pulse" />
               <span style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="text-[11px] tracking-[0.3em] text-[#FF6A00] uppercase font-semibold">
-                Перезвоним через 15 минут
+                Акция — скидка до 20%
               </span>
             </div>
             <h2 style={{ fontFamily: "'Oswald',sans-serif" }}
@@ -137,7 +137,7 @@ export default function ContactModal({ open, onClose, title = "Получить 
                     ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]"
                     : "bg-gray-200 text-gray-400 cursor-not-allowed"
                 }`}>
-                Перезвоните мне через 15 минут
+                Зафиксировать скидку 20%
               </button>
             </form>
           )}

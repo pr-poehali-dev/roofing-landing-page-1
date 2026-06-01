@@ -120,7 +120,7 @@ function QuickForm({ cta }: { cta: string }) {
         className={`w-full font-bold text-sm tracking-widest py-4 uppercase transition-colors ${
           allConsented ? "bg-[#FF6A00] text-white hover:bg-[#e05a00]" : "bg-gray-200 text-gray-400 cursor-not-allowed"
         }`}>
-        Перезвоните мне через 5 минут
+        Зафиксировать скидку 20%
       </button>
     </form>
   );
@@ -197,8 +197,8 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             alt={title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-900/88 via-gray-900/60 to-gray-900/25" />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/80 to-gray-900/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent" />
         </div>
 
         {/* content */}
@@ -219,10 +219,10 @@ export default function ServicePage({ title, subtitle, description, heroIcon, be
             <p style={{ animationDelay: "0.25s" }}
               className="animate-fade-in-up text-white/75 text-sm md:text-base leading-relaxed mb-6 max-w-lg hidden sm:block">{description}</p>
             <div className="animate-fade-in-up flex flex-wrap gap-3 mb-10" style={{ animationDelay: "0.3s" }}>
-              <button onClick={() => openModal("Перезвоните мне")}
+              <button onClick={() => openModal("Зафиксировать скидку 20%")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
                 className="bg-[#FF6A00] text-white font-bold text-sm tracking-widest px-7 py-4 uppercase hover:bg-[#e05a00] transition-colors">
-                Перезвоните мне
+                Зафиксировать скидку 20%
               </button>
               <a href="tel:+79681003243" onClick={() => trackPhoneClick("service_hero")}
                 style={{ fontFamily: "'Oswald',sans-serif" }}
