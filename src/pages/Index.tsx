@@ -237,34 +237,28 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
                   onChange={e => setQty(Number(e.target.value))}
                   className="w-full" />
                 {selected.unit === "м²" && (() => {
-                  const marks = [80, 100, 150, 200, 250, 300, 350, 400, 450, 500].filter(v => v <= unitCfg.sliderMax);
+                  const marks = [100, 150, 200, 250, 300, 400, 500];
                   return (
-                    <div className="relative mt-2 mb-1">
-                      <div className="flex justify-between">
-                        {marks.map(v => {
-                          const pct = ((v - unitCfg.min) / (unitCfg.sliderMax - unitCfg.min)) * 100;
-                          const active = qty >= v - 12 && qty <= v + 12;
-                          return (
-                            <button key={v} type="button"
-                              onClick={() => setQty(v)}
-                              style={{ left: `${pct}%` }}
-                              className={`absolute -translate-x-1/2 flex flex-col items-center gap-0.5 group`}>
-                              <div className={`w-px h-2 ${active ? "bg-[#FF6A00]" : "bg-gray-300 group-hover:bg-gray-500"} transition-colors`} />
-                              <span style={{ fontFamily: "'Oswald',sans-serif" }}
-                                className={`text-[10px] tracking-wide transition-colors ${active ? "text-[#FF6A00] font-bold" : "text-gray-400 group-hover:text-gray-600"}`}>
-                                {v}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                      <div className="h-5" />
+                    <div className="relative h-8 mt-1">
+                      {marks.map(v => {
+                        const pct = ((v - unitCfg.min) / (unitCfg.sliderMax - unitCfg.min)) * 100;
+                        const active = qty >= v - 15 && qty <= v + 15;
+                        return (
+                          <button key={v} type="button"
+                            onClick={() => setQty(v)}
+                            style={{ left: `${pct}%` }}
+                            className="absolute -translate-x-1/2 top-0 flex flex-col items-center gap-0.5 group">
+                            <div className={`w-px h-2 transition-colors ${active ? "bg-[#FF6A00]" : "bg-gray-300 group-hover:bg-gray-400"}`} />
+                            <span style={{ fontFamily: "'Oswald',sans-serif" }}
+                              className={`text-[11px] leading-none transition-colors whitespace-nowrap ${active ? "text-[#FF6A00] font-bold" : "text-gray-400 group-hover:text-gray-600"}`}>
+                              {v}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
                   );
                 })()}
-                <div className="flex justify-between text-xs text-gray-400 mt-1">
-                  <span>{unitCfg.min} {selected.unit}</span><span>{unitCfg.sliderMax} {selected.unit}</span>
-                </div>
               </div>
 
               {/* Work type selector */}
