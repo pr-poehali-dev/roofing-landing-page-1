@@ -201,10 +201,13 @@ function Calculator({ onModal }: { onModal: (title: string) => void }) {
   const total = Math.round(workCost * materialCoeff);
 
   const handleTypeChange = (i: number) => {
-    setTypeIdx(i);
     const newUnit = PRICE_TYPES[i].unit;
-    const cfg = CALC_UNIT_CONFIG[newUnit] ?? CALC_UNIT_CONFIG["м²"];
-    setQty(cfg.min * 8);
+    const oldUnit = selected.unit;
+    if (newUnit !== oldUnit) {
+      const cfg = CALC_UNIT_CONFIG[newUnit] ?? CALC_UNIT_CONFIG["м²"];
+      setQty(cfg.min * 8);
+    }
+    setTypeIdx(i);
     trackCalculatorMaterialSelect(PRICE_TYPES[i].label);
   };
 
